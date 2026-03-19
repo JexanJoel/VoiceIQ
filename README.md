@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# 🎙️ VoiceIQ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> AI-powered call center compliance platform built for Indian call centers.
 
-Currently, two official plugins are available:
+VoiceIQ automatically transcribes Hinglish & Tanglish call recordings, validates SOP compliance, detects sentiment, and surfaces actionable insights — all in under 30 seconds.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Built for the **HCL GUVI Intern Hiring Hackathon 2026 — Track 3: Call Center Compliance**
 
-## React Compiler
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Open Source](https://img.shields.io/badge/open%20source-yes-orange)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🗣️ **Hinglish & Tanglish STT** — Groq Whisper large-v3 transcription
+- ✅ **SOP Compliance Validation** — AI-powered rule checking per call
+- 😊 **Sentiment Analysis** — Detect caller mood and agent tone
+- 💳 **Payment Preference Detection** — Auto-categorize payment intent
+- 🚩 **Instant Call Flagging** — Flag calls below 70% compliance
+- 📊 **Live Analytics Dashboard** — Charts, trends, and breakdowns
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Layer | Tech |
+|---|---|
+| Frontend | React + Vite + TypeScript |
+| Backend | Node.js + Express |
+| Database & Auth | Supabase (Postgres + Auth + Storage) |
+| Speech-to-Text | Groq Whisper large-v3 |
+| AI / NLP | Groq + Llama 3.3 70B |
+| Charts | Recharts |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- Supabase account
+- Groq API key
+
+### Installation
+```bash
+# Clone the repo
+git clone https://github.com/JexanJoel/VoiceIQ.git
+cd VoiceIQ
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Fill in your Supabase URL and anon key
+
+# Start dev server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:5173](http://localhost:5173)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ⚙️ Environment Variables
+```env
+VITE_API_BASE_URL=http://localhost:5000
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
+
+---
+
+## 📁 Project Structure
+```
+src/
+├── components/
+│   ├── ui/          # Button, Card, Badge, Loader, EmptyState
+│   ├── layout/      # Navbar, Sidebar, MobileSidebar, DashboardLayout
+│   └── charts/      # ComplianceTrend, Sentiment, Language, Payment
+├── pages/
+│   ├── LandingPage.tsx
+│   ├── LoginPage.tsx
+│   ├── SignupPage.tsx
+│   └── dashboard/
+│       ├── DashboardHome.tsx
+│       ├── CallsPage.tsx
+│       ├── CallDetailPage.tsx
+│       └── FlaggedCallsPage.tsx
+├── context/         # AuthContext
+├── hooks/           # useAuth, useCalls
+├── services/        # api.ts, supabase.ts
+└── utils/           # helpers.ts
+```
+
+---
+
+## 🔗 Related
+
+- [VoiceIQ Backend](https://github.com/JexanJoel/VoiceIQ-Backend) — Private repo (Node.js + Express + Supabase + Groq)
+
+---
+
+## 📄 License
+
+Licensed under the [Apache License 2.0](./LICENSE)
+
+---
+
+<p align="center">Built with ❤️ for HCL GUVI Intern Hiring Hackathon 2026</p>
