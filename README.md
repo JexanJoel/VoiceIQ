@@ -68,14 +68,4 @@ src/
 
 ---
 
-## 📄 License
-
-<div align="center">
-
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
-
-</div>
-
----
-
 <div align="center">Built with ❤️ for HCL GUVI Intern Hiring Hackathon 2026</div>
