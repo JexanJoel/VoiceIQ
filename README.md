@@ -4,8 +4,6 @@
 
 </div>
 
-> AI-powered call center compliance platform built for Indian call centers.
-
 VoiceIQ automatically transcribes Hinglish & Tanglish call recordings, validates SOP compliance, detects sentiment, and surfaces actionable insights - all in under 30 seconds.
 
 <div align="center">
@@ -77,8 +75,6 @@ src/
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 
 </div>
-
-Licensed under the [Apache License 2.0](./LICENSE)
 
 ---
 
