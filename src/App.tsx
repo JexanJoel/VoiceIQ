@@ -10,13 +10,13 @@ import CallDetailPage from './pages/dashboard/CallDetailPage'
 import FlaggedCallsPage from './pages/dashboard/FlaggedCallsPage'
 import Loader from './components/ui/Loader'
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth()
   if (loading) return <Loader center />
   return user ? children : <Navigate to="/login" replace />
 }
 
-const PublicRoute = ({ children }) => {
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth()
   if (loading) return <Loader center />
   return user ? <Navigate to="/dashboard" replace /> : children

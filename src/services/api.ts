@@ -13,13 +13,13 @@ api.interceptors.request.use(async (config) => {
   return config
 })
 
-export const uploadCall = (formData) => api.post('/api/calls/upload', formData)
+export const uploadCall = (formData: FormData) => api.post('/api/calls/upload', formData)
 export const getAllCalls = () => api.get('/api/calls')
-export const getCallById = (id) => api.get(`/api/calls/${id}`)
+export const getCallById = (id: string) => api.get(`/api/calls/${id}`)
 export const getFlaggedCalls = () => api.get('/api/calls/flagged')
 
-export const getTranscript = (callId) => api.get(`/api/transcripts/${callId}`)
-export const searchTranscripts = (q) => api.get(`/api/transcripts/search?q=${q}`)
+export const getTranscript = (callId: string) => api.get(`/api/transcripts/${callId}`)
+export const searchTranscripts = (q: string) => api.get(`/api/transcripts/search?q=${q}`)
 
 export const getDashboardStats = () => api.get('/api/analytics/stats')
 export const getComplianceTrend = () => api.get('/api/analytics/trend')
