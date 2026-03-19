@@ -8,12 +8,11 @@ VoiceIQ automatically transcribes Hinglish & Tanglish call recordings, validates
 
 <div align="center">
 
-![License](https://img.shields.io/badge/License-Apache%202.0-E11D48?style=flat&logo=apache&logoColor=white)
-[![Live Demo](https://img.shields.io/badge/Live-Demo-7C3AED?style=flat&logo=vercel&logoColor=white)](YOUR_LIVE_DEMO_LINK)
-[![GitHub](https://img.shields.io/badge/GitHub-Repo-1F2937?style=flat&logo=github&logoColor=white)](https://github.com/JexanJoel/VoiceIQ)
+[![License](https://img.shields.io/badge/License-Apache_2.0-F59E0B?style=for-the-badge)](./LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-6366F1?style=for-the-badge&logo=vercel&logoColor=white)](https://voice-iq-five.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-111827?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JexanJoel/VoiceIQ)
 
 </div>
-
 ---
 
 ## ✨ Features
