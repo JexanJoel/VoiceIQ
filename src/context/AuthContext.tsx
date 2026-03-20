@@ -32,16 +32,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       options: { redirectTo: `${window.location.origin}/dashboard` }
     })
 
-  const signInWithLinkedIn = () =>
-    supabase.auth.signInWithOAuth({
-      provider: 'linkedin_oidc',
-      options: { redirectTo: `${window.location.origin}/dashboard` }
-    })
-
   const signOut = () => supabase.auth.signOut()
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, signInWithLinkedIn, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   )
