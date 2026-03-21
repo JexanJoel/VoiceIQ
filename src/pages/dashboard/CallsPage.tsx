@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCalls } from '../../hooks/useCalls'
-import { uploadCall } from '../../services/api'
+import { uploadCall, deleteCall } from '../../services/api'
 import Card from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
 import Button from '../../components/ui/Button'
@@ -15,6 +15,7 @@ export default function CallsPage() {
   const fileRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -31,6 +32,20 @@ export default function CallsPage() {
     } finally {
       setUploading(false)
       if (fileRef.current) fileRef.current.value = ''
+    }
+  }
+
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!confirm('Delete this call recording?')) return
+    setDeletingId(id)
+    try {
+      await deleteCall(id)
+      await refetch()
+    } catch (err) {
+      alert('Delete failed. Please try again.')
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -65,7 +80,7 @@ export default function CallsPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
                   <div style={{
                     width: '40px', height: '40px', borderRadius: '10px',
-                    background: '#EEF2FF', display: 'flex', alignItems: 'center',
+                    background: '#FFF1F2', display: 'flex', alignItems: 'center',
                     justifyContent: 'center', fontSize: '18px', flexShrink: 0
                   }}>📞</div>
                   <div style={{ minWidth: 0 }}>
@@ -84,6 +99,23 @@ export default function CallsPage() {
                   <Badge variant={call.sentiment === 'positive' ? 'success' : call.sentiment === 'negative' ? 'danger' : 'warning'}>
                     {call.sentiment}
                   </Badge>
+                  <button
+                    onClick={(e) => handleDelete(call.id, e)}
+                    disabled={deletingId === call.id}
+                    style={{
+                      width: '32px', height: '32px', borderRadius: '8px',
+                      background: '#FEF2F2', border: '1px solid #FECACA',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: deletingId === call.id ? 'not-allowed' : 'pointer',
+                      fontSize: '14px', flexShrink: 0,
+                      opacity: deletingId === call.id ? 0.5 : 1,
+                      transition: 'all 0.15s ease'
+                    }}
+                    onMouseEnter={e => { if (deletingId !== call.id) e.currentTarget.style.background = '#FEE2E2' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = '#FEF2F2' }}
+                  >
+                    {deletingId === call.id ? '...' : '🗑️'}
+                  </button>
                 </div>
               </div>
             </Card>

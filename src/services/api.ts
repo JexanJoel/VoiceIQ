@@ -17,6 +17,7 @@ export const uploadCall = (formData: FormData) => api.post('/api/calls/upload', 
 export const getAllCalls = () => api.get('/api/calls')
 export const getCallById = (id: string) => api.get(`/api/calls/${id}`)
 export const getFlaggedCalls = () => api.get('/api/calls/flagged')
+export const deleteCall = (id: string) => api.delete(`/api/calls/${id}`)
 
 export const getTranscript = (callId: string) => api.get(`/api/transcripts/${callId}`)
 export const searchTranscripts = (q: string) => api.get(`/api/transcripts/search?q=${q}`)
