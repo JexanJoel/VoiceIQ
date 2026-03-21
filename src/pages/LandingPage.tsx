@@ -271,7 +271,7 @@ export default function LandingPage() {
             Ready to automate your call compliance?
           </h2>
           <p style={{ fontSize: '15px', color: '#6B7280', marginBottom: '28px', lineHeight: 1.7 }}>
-            Upload your first recording and get full compliance insights in seconds — completely free.
+            Upload your first recording and get full compliance insights in seconds.
           </p>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'nowrap' }}>
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: '12px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)', whiteSpace: 'nowrap' }}>
