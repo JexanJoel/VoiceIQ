@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const FEATURES = [
@@ -28,8 +29,17 @@ const TECH = ['Groq Whisper', 'Llama 3.3 70B', 'Supabase', 'React + Vite', 'Node
 const WITHOUT = ['Manual listening takes hours', 'Compliance errors go undetected', 'No Hinglish/Tanglish support', 'Inconsistent SOP enforcement', 'No data-driven insights']
 const WITH = ['Full analysis in under 30 seconds', 'Every violation automatically flagged', 'Native Hinglish & Tanglish support', 'Consistent AI-powered SOP scoring', 'Real-time dashboard & trend reports']
 
+const GH_ICON = (size = 13) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+  </svg>
+)
+
+const GITHUB_URL = 'https://github.com/JexanJoel/VoiceIQ'
+
 export default function LandingPage() {
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Plus Jakarta Sans', sans-serif", overflowX: 'hidden', color: '#111827' }}>
@@ -38,28 +48,58 @@ export default function LandingPage() {
       <nav style={{
         position: 'sticky', top: 0, zIndex: 100,
         background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid #F3F4F6', height: '60px',
-        display: 'flex', alignItems: 'center',
-        padding: '0 clamp(16px,5vw,80px)', justifyContent: 'space-between'
+        borderBottom: '1px solid #F3F4F6',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-          <div style={{
-            width: '32px', height: '32px', borderRadius: '8px',
-            background: 'linear-gradient(135deg, #E11D48, #F43F5E)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '15px', boxShadow: '0 3px 10px rgba(225,29,72,0.25)'
-          }}>🎙️</div>
-          <span style={{ fontWeight: '800', fontSize: '17px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
-          <span style={{ background: '#F0FDF4', color: '#16A34A', border: '1px solid #BBF7D0', borderRadius: '99px', fontSize: '10px', fontWeight: '700', padding: '2px 8px' }}>Open Source</span>
+        <div style={{ height: '60px', display: 'flex', alignItems: 'center', padding: '0 clamp(16px,5vw,80px)', justifyContent: 'space-between' }}>
+
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+            <div style={{
+              width: '32px', height: '32px', borderRadius: '8px',
+              background: 'linear-gradient(135deg, #E11D48, #F43F5E)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '15px', boxShadow: '0 3px 10px rgba(225,29,72,0.25)'
+            }}>🎙️</div>
+            <span style={{ fontWeight: '800', fontSize: '17px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
+            <span style={{ background: '#F0FDF4', color: '#16A34A', border: '1px solid #BBF7D0', borderRadius: '99px', fontSize: '10px', fontWeight: '700', padding: '2px 8px' }}>Open Source</span>
+          </div>
+
+          {/* Desktop nav */}
+          <div className="nav-desktop" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'none', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 14px', fontSize: '12px', fontWeight: '600', color: '#374151', cursor: 'pointer', textDecoration: 'none' }}>
+              {GH_ICON(13)} GitHub
+            </a>
+            <button onClick={() => navigate('/login')} style={{ background: 'none', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 16px', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
+            <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', borderRadius: '8px', padding: '8px 18px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 3px 10px rgba(225,29,72,0.25)' }}>Get Started →</button>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button className="nav-mobile" onClick={() => setMenuOpen(!menuOpen)} style={{
+            display: 'none', width: '36px', height: '36px', borderRadius: '8px',
+            border: '1px solid #E5E7EB', background: '#fff', cursor: 'pointer',
+            alignItems: 'center', justifyContent: 'center', fontSize: '16px', color: '#374151'
+          }}>
+            {menuOpen ? '✕' : '☰'}
+          </button>
         </div>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'none', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 14px', fontSize: '12px', fontWeight: '600', color: '#374151', cursor: 'pointer', textDecoration: 'none' }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            GitHub
-          </a>
-          <button onClick={() => navigate('/login')} style={{ background: 'none', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 16px', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
-          <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', borderRadius: '8px', padding: '8px 18px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 3px 10px rgba(225,29,72,0.25)' }}>Get Started →</button>
-        </div>
+
+        {/* Mobile dropdown */}
+        {menuOpen && (
+          <div className="nav-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px 16px 16px', borderTop: '1px solid #F3F4F6', background: '#fff' }}>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none' }}>
+              {GH_ICON(14)} View on GitHub
+            </a>
+            <button onClick={() => { navigate('/login'); setMenuOpen(false) }}
+              style={{ width: '100%', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', background: '#F9FAFB', border: 'none', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>
+              Sign In
+            </button>
+            <button onClick={() => { navigate('/signup'); setMenuOpen(false) }}
+              style={{ width: '100%', padding: '11px 12px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+              Get Started →
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* ── Hero ── */}
@@ -67,13 +107,12 @@ export default function LandingPage() {
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(225,29,72,0.06), transparent)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          {/* Badges row */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginBottom: '24px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#FFF1F2', border: '1px solid #FECDD3', color: '#E11D48', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: '700' }}>
               🇮🇳 Built for Indian Call Centers
             </div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#F0FDF4', border: '1px solid #BBF7D0', color: '#16A34A', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: '700' }}>
-              ⭐ Open Source - Apache 2.0 License
+              ⭐ Open Source — Apache 2.0 License
             </div>
           </div>
 
@@ -92,9 +131,8 @@ export default function LandingPage() {
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,28px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)' }}>
               Start Free →
             </button>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,24px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '600', cursor: 'pointer', textDecoration: 'none' }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              View on GitHub
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,24px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '600', cursor: 'pointer', textDecoration: 'none' }}>
+              {GH_ICON(15)} View on GitHub
             </a>
           </div>
           <p style={{ fontSize: '12px', color: '#9CA3AF' }}>Free forever · Open source · Apache 2.0 License</p>
@@ -148,6 +186,29 @@ export default function LandingPage() {
               <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '3px', fontWeight: '500' }}>{s.l}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Open Source Banner ── */}
+      <section style={{ background: '#F0FDF4', borderTop: '1px solid #DCFCE7', borderBottom: '1px solid #DCFCE7', padding: 'clamp(20px,3vw,28px) clamp(16px,5vw,80px)' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '36px', height: '36px', background: '#DCFCE7', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>⭐</div>
+            <div>
+              <div style={{ fontWeight: '700', fontSize: '14px', color: '#14532D' }}>VoiceIQ is Open Source</div>
+              <div style={{ fontSize: '12px', color: '#16A34A', marginTop: '1px' }}>Apache 2.0 License · Free to use, fork, and contribute</div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            {['Frontend is public', 'Backend is private', 'Apache 2.0 Licensed'].map((t, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#166534', fontWeight: '600' }}>
+                <span style={{ color: '#22C55E' }}>✓</span> {t}
+              </div>
+            ))}
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#16A34A', color: '#fff', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', textDecoration: 'none' }}>
+              {GH_ICON(13)} Star on GitHub
+            </a>
+          </div>
         </div>
       </section>
 
@@ -253,15 +314,14 @@ export default function LandingPage() {
             Ready to automate your call compliance?
           </h2>
           <p style={{ fontSize: '15px', color: '#6B7280', marginBottom: '28px', lineHeight: 1.7 }}>
-            Upload your first recording and get full compliance insights in seconds - completely free.
+            Upload your first recording and get full compliance insights in seconds — completely free.
           </p>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: '13px 28px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)' }}>
               Get Started Free →
             </button>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '13px 24px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              View on GitHub
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '13px 24px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
+              {GH_ICON(15)} View on GitHub
             </a>
           </div>
           <p style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '12px' }}>Free forever · Open source · Apache 2.0 License</p>
@@ -276,11 +336,17 @@ export default function LandingPage() {
           <span style={{ fontSize: '12px', color: '#9CA3AF' }}>· Open Source</span>
         </div>
         <p style={{ fontSize: '12px', color: '#9CA3AF' }}>© 2026 VoiceIQ · HCL GUVI Intern Hiring Hackathon</p>
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#6B7280', fontWeight: '600', textDecoration: 'none' }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
+        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#6B7280', fontWeight: '600', textDecoration: 'none' }}>
+          {GH_ICON(13)} GitHub
         </a>
       </footer>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile { display: flex !important; }
+        }
+      `}</style>
     </div>
   )
 }
