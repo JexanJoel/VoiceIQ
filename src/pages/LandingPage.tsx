@@ -54,7 +54,7 @@ export default function LandingPage() {
           </div>
 
           {/* Desktop nav */}
-          <div className="nav-desktop" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div className="nav-desktop" style={{ gap: '8px', alignItems: 'center' }}>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 14px', fontSize: '12px', fontWeight: '600', color: '#374151', textDecoration: 'none', background: 'none' }}>
               {GH(13)} GitHub
             </a>
@@ -62,33 +62,31 @@ export default function LandingPage() {
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', borderRadius: '8px', padding: '8px 18px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 3px 10px rgba(225,29,72,0.25)' }}>Get Started →</button>
           </div>
 
-          {/* Hamburger — mobile only */}
+          {/* Hamburger */}
           <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
-            display: 'none', width: '36px', height: '36px', borderRadius: '8px',
+            width: '36px', height: '36px', borderRadius: '8px',
             border: '1px solid #E5E7EB', background: '#fff', cursor: 'pointer',
-            alignItems: 'center', justifyContent: 'center', fontSize: '18px',
-            color: '#374151', fontFamily: 'inherit'
+            fontSize: '18px', color: '#374151', fontFamily: 'inherit',
+            alignItems: 'center', justifyContent: 'center', padding: 0,
+            lineHeight: 1
           }}>
             {menuOpen ? '✕' : '☰'}
           </button>
         </div>
 
-        {/* Mobile dropdown — only renders when open */}
+        {/* Mobile dropdown */}
         {menuOpen && (
-          <div className="mobile-menu" style={{
-            display: 'none', flexDirection: 'column', gap: '8px',
-            padding: '12px 16px 16px', borderTop: '1px solid #F3F4F6', background: '#fff'
-          }}>
+          <div className="mobile-menu" style={{ flexDirection: 'column', gap: '8px', padding: '12px 16px 16px', borderTop: '1px solid #F3F4F6', background: '#fff' }}>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none' }}>
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', border: '1px solid #E5E7EB', textAlign: 'center' }}>
               {GH(14)} View on GitHub
             </a>
             <button onClick={() => { navigate('/login'); setMenuOpen(false) }}
-              style={{ width: '100%', textAlign: 'left', padding: '10px 12px', borderRadius: '8px', background: '#F9FAFB', border: 'none', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>
               Sign In
             </button>
             <button onClick={() => { navigate('/signup'); setMenuOpen(false) }}
-              style={{ width: '100%', padding: '11px 12px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
               Get Started →
             </button>
           </div>
@@ -101,7 +99,7 @@ export default function LandingPage() {
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginBottom: '24px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#FFF1F2', border: '1px solid #FECDD3', color: '#E11D48', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: '700' }}>🇮🇳 Built for Indian Call Centers</div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#F0FDF4', border: '1px solid #BBF7D0', color: '#16A34A', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: '700' }}>⭐ Open Source — Apache 2.0 License</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#F0FDF4', border: '1px solid #BBF7D0', color: '#16A34A', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: '700' }}>⭐ Open Source — Apache 2.0</div>
           </div>
           <h1 style={{ fontSize: 'clamp(30px,5vw,54px)', fontWeight: '800', lineHeight: 1.1, letterSpacing: '-1px', marginBottom: '18px', color: '#0F172A' }}>
             Turn Every Call Into{' '}
@@ -302,6 +300,10 @@ export default function LandingPage() {
       </footer>
 
       <style>{`
+        .nav-desktop { display: flex; }
+        .hamburger-btn { display: none; }
+        .mobile-menu { display: none; }
+
         @media (max-width: 640px) {
           .nav-desktop { display: none !important; }
           .hamburger-btn { display: flex !important; }
