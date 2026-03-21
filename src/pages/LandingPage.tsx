@@ -67,8 +67,7 @@ export default function LandingPage() {
             width: '36px', height: '36px', borderRadius: '8px',
             border: '1px solid #E5E7EB', background: '#fff', cursor: 'pointer',
             fontSize: '18px', color: '#374151', fontFamily: 'inherit',
-            alignItems: 'center', justifyContent: 'center', padding: 0,
-            lineHeight: 1
+            alignItems: 'center', justifyContent: 'center', padding: 0, lineHeight: 1
           }}>
             {menuOpen ? '✕' : '☰'}
           </button>
@@ -78,7 +77,7 @@ export default function LandingPage() {
         {menuOpen && (
           <div className="mobile-menu" style={{ flexDirection: 'column', gap: '8px', padding: '12px 16px 16px', borderTop: '1px solid #F3F4F6', background: '#fff' }}>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', border: '1px solid #E5E7EB', textAlign: 'center' }}>
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', border: '1px solid #E5E7EB' }}>
               {GH(14)} View on GitHub
             </a>
             <button onClick={() => { navigate('/login'); setMenuOpen(false) }}
@@ -109,10 +108,10 @@ export default function LandingPage() {
             Automatically transcribe Hinglish & Tanglish calls, validate SOP compliance, detect sentiment, and surface insights — all in under 30 seconds.
           </p>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '14px' }}>
-            <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,28px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)' }}>
+            <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,28px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)', whiteSpace: 'nowrap' }}>
               Start Free →
             </button>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,24px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '600', textDecoration: 'none' }}>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,24px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap' }}>
               {GH(15)} View on GitHub
             </a>
           </div>
@@ -268,18 +267,18 @@ export default function LandingPage() {
       <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#fff', borderTop: '1px solid #F3F4F6' }}>
         <div style={{ maxWidth: '540px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '40px', marginBottom: '14px' }}>🚀</div>
-          <h2 style={{ fontSize: 'clamp(22px,3.5vw,34px)', fontWeight: '800', color: '#0F172A', letterSpacing: '-0.5px', marginBottom: '12px' }}>
+          <h2 style={{ fontSize: 'clamp(18px,3vw,30px)', fontWeight: '800', color: '#0F172A', letterSpacing: '-0.5px', marginBottom: '12px', whiteSpace: 'nowrap' }}>
             Ready to automate your call compliance?
           </h2>
           <p style={{ fontSize: '15px', color: '#6B7280', marginBottom: '28px', lineHeight: 1.7 }}>
             Upload your first recording and get full compliance insights in seconds — completely free.
           </p>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: '13px 28px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)' }}>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'nowrap' }}>
+            <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: '12px 20px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)', whiteSpace: 'nowrap' }}>
               Get Started Free →
             </button>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '13px 24px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
-              {GH(15)} View on GitHub
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fff', color: '#374151', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '12px 20px', fontSize: '13px', fontWeight: '600', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              {GH(14)} View on GitHub
             </a>
           </div>
           <p style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '12px' }}>Free forever · Open source · Apache 2.0 License</p>
@@ -287,16 +286,18 @@ export default function LandingPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer style={{ borderTop: '1px solid #F3F4F6', background: '#FAFAFA', padding: '20px clamp(16px,5vw,80px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>🎙️</span>
-          <span style={{ fontWeight: '800', fontSize: '14px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
-          <span style={{ fontSize: '12px', color: '#9CA3AF' }}>· Open Source</span>
+      <footer style={{ borderTop: '1px solid #F3F4F6', background: '#FAFAFA', padding: '20px clamp(16px,5vw,80px)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>🎙️</span>
+            <span style={{ fontWeight: '800', fontSize: '14px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
+            <span style={{ fontSize: '12px', color: '#9CA3AF' }}>· Open Source</span>
+          </div>
+          <p style={{ fontSize: '12px', color: '#9CA3AF', margin: 0 }}>© 2026 VoiceIQ · HCL GUVI Intern Hiring Hackathon</p>
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#6B7280', fontWeight: '600', textDecoration: 'none' }}>
+            {GH(13)} GitHub
+          </a>
         </div>
-        <p style={{ fontSize: '12px', color: '#9CA3AF' }}>© 2026 VoiceIQ · HCL GUVI Intern Hiring Hackathon</p>
-        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#6B7280', fontWeight: '600', textDecoration: 'none' }}>
-          {GH(13)} GitHub
-        </a>
       </footer>
 
       <style>{`
