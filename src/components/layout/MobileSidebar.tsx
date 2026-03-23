@@ -4,6 +4,7 @@ const links = [
   { to: '/dashboard', icon: '📊', label: 'Home' },
   { to: '/dashboard/calls', icon: '📞', label: 'Calls' },
   { to: '/dashboard/flagged', icon: '🚩', label: 'Flagged' },
+  { to: '/dashboard/sop-rules', icon: '📋', label: 'SOP Rules' },
 ]
 
 export default function MobileSidebar() {
@@ -18,12 +19,12 @@ export default function MobileSidebar() {
         <NavLink key={link.to} to={link.to} end={link.to === '/dashboard'}
           style={({ isActive }) => ({
             display: 'flex', flexDirection: 'column', alignItems: 'center',
-            gap: '3px', padding: '4px 16px', borderRadius: '8px',
+            gap: '3px', padding: '4px 12px', borderRadius: '8px',
             color: isActive ? '#E11D48' : '#A8A29E',
-            fontSize: '11px', fontWeight: '600'
+            fontSize: '10px', fontWeight: '600'
           })}
         >
-          <span style={{ fontSize: '20px' }}>{link.icon}</span>
+          <span style={{ fontSize: '18px' }}>{link.icon}</span>
           <span>{link.label}</span>
         </NavLink>
       ))}

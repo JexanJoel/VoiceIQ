@@ -8,6 +8,7 @@ import DashboardHome from './pages/dashboard/DashboardHome'
 import CallsPage from './pages/dashboard/CallsPage'
 import CallDetailPage from './pages/dashboard/CallDetailPage'
 import FlaggedCallsPage from './pages/dashboard/FlaggedCallsPage'
+import SOPRulesPage from './pages/dashboard/SOPRulesPage'
 import Loader from './components/ui/Loader'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -33,6 +34,7 @@ function AppRoutes() {
         <Route path="calls" element={<CallsPage />} />
         <Route path="calls/:id" element={<CallDetailPage />} />
         <Route path="flagged" element={<FlaggedCallsPage />} />
+        <Route path="sop-rules" element={<SOPRulesPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
