@@ -4,7 +4,6 @@ import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
 import Badge from '../../components/ui/Badge'
 import Loader from '../../components/ui/Loader'
-import EmptyState from '../../components/ui/EmptyState'
 
 const MAX_RULES = 10
 
@@ -104,7 +103,11 @@ export default function SOPRulesPage() {
     setSaving(true)
     try {
       const rule = rules.find(r => r.id === edit.id)
-      await updateSopRule(edit.id, { rule_text: edit.rule_text, category: edit.category, is_active: rule?.is_active ?? true })
+      await updateSopRule(edit.id, {
+        rule_text: edit.rule_text,
+        category: edit.category,
+        is_active: rule?.is_active ?? true
+      })
       setEdit(null)
       await fetchRules()
     } catch {
@@ -114,12 +117,11 @@ export default function SOPRulesPage() {
     }
   }
 
-  const handleLoadDefaults = async () => {
-    if (!confirm('This will add the 6 default SOP rules. Continue?')) return
+  const handleUseDefaults = async () => {
     setSaving(true)
+    setError('')
     try {
       for (const r of DEFAULT_RULES) {
-        if (rules.length >= MAX_RULES) break
         await createSopRule(r)
       }
       await fetchRules()
@@ -130,9 +132,12 @@ export default function SOPRulesPage() {
     }
   }
 
-  const getCategoryInfo = (val: string) => CATEGORIES.find(c => c.value === val) || CATEGORIES[CATEGORIES.length - 1]
+  const getCategoryInfo = (val: string) =>
+    CATEGORIES.find(c => c.value === val) || CATEGORIES[CATEGORIES.length - 1]
 
   if (loading) return <Loader center />
+
+  const hasCustomRules = rules.length > 0
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '800px' }}>
@@ -142,21 +147,14 @@ export default function SOPRulesPage() {
         <div>
           <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#111827' }}>📋 SOP Rules</h1>
           <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '2px' }}>
-            {rules.length}/{MAX_RULES} rules · Used to analyze call compliance
+            {hasCustomRules ? `${rules.length}/${MAX_RULES} custom rules` : 'Using default rules'} · Applied to every call analysis
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          {rules.length === 0 && (
-            <Button variant="ghost" size="sm" loading={saving} onClick={handleLoadDefaults}>
-              Load Defaults
-            </Button>
-          )}
-          {rules.length < MAX_RULES && (
-            <Button size="sm" onClick={() => { setAdding(true); setError('') }}>
-              + Add Rule
-            </Button>
-          )}
-        </div>
+        {rules.length < MAX_RULES && (
+          <Button size="sm" onClick={() => { setAdding(true); setError('') }}>
+            + Add Rule
+          </Button>
+        )}
       </div>
 
       {/* Error */}
@@ -165,14 +163,6 @@ export default function SOPRulesPage() {
           ⚠️ {error}
         </div>
       )}
-
-      {/* Info banner */}
-      <div style={{ background: '#FFF1F2', border: '1px solid #FFE4E6', borderRadius: '10px', padding: '12px 16px', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-        <span style={{ fontSize: '16px', flexShrink: 0 }}>💡</span>
-        <p style={{ fontSize: '13px', color: '#6B7280', margin: 0, lineHeight: 1.6 }}>
-          These rules are used when analyzing your call recordings. Active rules are checked against every transcript. If you have no rules, the default 6 rules are used.
-        </p>
-      </div>
 
       {/* Add Rule Form */}
       {adding && (
@@ -209,19 +199,72 @@ export default function SOPRulesPage() {
         </Card>
       )}
 
-      {/* Rules List */}
-      {rules.length === 0 && !adding ? (
-        <EmptyState
-          icon="📋"
-          title="No SOP rules yet"
-          description="Add your own rules or load the default 6 rules to get started"
-        />
-      ) : (
+      {/* ── No custom rules — show defaults as preview ── */}
+      {!hasCustomRules && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+          {/* Banner */}
+          <div style={{
+            background: '#FFFBEB', border: '1px solid #FDE68A',
+            borderRadius: '12px', padding: '16px 18px',
+            display: 'flex', alignItems: 'flex-start', gap: '12px'
+          }}>
+            <span style={{ fontSize: '20px', flexShrink: 0 }}>⚡</span>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: '13px', fontWeight: '700', color: '#92400E', margin: '0 0 4px' }}>
+                You're currently using the 6 default rules
+              </p>
+              <p style={{ fontSize: '13px', color: '#78716C', margin: '0 0 12px', lineHeight: 1.6 }}>
+                These are applied to every call you analyze. You can use them as-is, customize them, or start fresh with your own rules.
+              </p>
+              <Button size="sm" loading={saving} onClick={handleUseDefaults}>
+                ✓ Use these as my rules
+              </Button>
+            </div>
+          </div>
+
+          {/* Default rules preview */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {DEFAULT_RULES.map((rule, i) => {
+              const cat = getCategoryInfo(rule.category)
+              return (
+                <div key={i} style={{
+                  display: 'flex', alignItems: 'flex-start', gap: '12px',
+                  background: '#FAFAFA', border: '1px dashed #E5E7EB',
+                  borderRadius: '12px', padding: '14px 16px',
+                  opacity: 0.75
+                }}>
+                  <div style={{
+                    width: '26px', height: '26px', borderRadius: '7px', flexShrink: 0,
+                    background: '#F3F4F6', display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontSize: '12px', fontWeight: '800', color: '#9CA3AF'
+                  }}>{i + 1}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                      <Badge variant={cat.color as any}>{cat.label}</Badge>
+                      <span style={{ fontSize: '10px', color: '#9CA3AF', fontWeight: '600', background: '#F3F4F6', padding: '2px 7px', borderRadius: '99px' }}>DEFAULT</span>
+                    </div>
+                    <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>
+                      {rule.rule_text}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <p style={{ fontSize: '12px', color: '#9CA3AF', textAlign: 'center' }}>
+            Click "+ Add Rule" to start building your own custom ruleset
+          </p>
+        </div>
+      )}
+
+      {/* ── Has custom rules — show them ── */}
+      {hasCustomRules && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {rules.map((rule, i) => (
             <Card key={rule.id}>
               {edit?.id === rule.id ? (
-                // Edit mode
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <select
                     value={edit.category}
@@ -244,10 +287,8 @@ export default function SOPRulesPage() {
                   </div>
                 </div>
               ) : (
-                // View mode
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1, minWidth: 0 }}>
-                    {/* Rule number */}
                     <div style={{
                       width: '28px', height: '28px', borderRadius: '7px', flexShrink: 0,
                       background: rule.is_active ? '#FFF1F2' : '#F3F4F6',
@@ -260,9 +301,7 @@ export default function SOPRulesPage() {
                         <Badge variant={getCategoryInfo(rule.category).color as any}>
                           {getCategoryInfo(rule.category).label}
                         </Badge>
-                        {!rule.is_active && (
-                          <Badge variant="neutral">Inactive</Badge>
-                        )}
+                        {!rule.is_active && <Badge variant="neutral">Inactive</Badge>}
                       </div>
                       <p style={{
                         fontSize: '13px', color: rule.is_active ? '#374151' : '#9CA3AF',
@@ -272,28 +311,22 @@ export default function SOPRulesPage() {
                     </div>
                   </div>
 
-                  {/* Actions */}
                   <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                    {/* Toggle */}
                     <button onClick={() => handleToggle(rule.id)} style={{
                       width: '30px', height: '30px', borderRadius: '7px',
                       background: rule.is_active ? '#F0FDF4' : '#F3F4F6',
                       border: `1px solid ${rule.is_active ? '#BBF7D0' : '#E5E7EB'}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       cursor: 'pointer', fontSize: '13px'
-                    }}
-                      title={rule.is_active ? 'Disable rule' : 'Enable rule'}
-                    >
+                    }} title={rule.is_active ? 'Disable' : 'Enable'}>
                       {rule.is_active ? '✓' : '○'}
                     </button>
-                    {/* Edit */}
                     <button onClick={() => setEdit({ id: rule.id, rule_text: rule.rule_text, category: rule.category })} style={{
                       width: '30px', height: '30px', borderRadius: '7px',
                       background: '#F9FAFB', border: '1px solid #E5E7EB',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       cursor: 'pointer', fontSize: '13px'
                     }}>✏️</button>
-                    {/* Delete */}
                     <button onClick={() => handleDelete(rule.id)} style={{
                       width: '30px', height: '30px', borderRadius: '7px',
                       background: '#FEF2F2', border: '1px solid #FECACA',
@@ -315,7 +348,7 @@ export default function SOPRulesPage() {
       {rules.length >= MAX_RULES && (
         <div style={{ background: '#FEF9C3', border: '1px solid #FDE68A', borderRadius: '10px', padding: '12px 16px' }}>
           <p style={{ fontSize: '13px', color: '#92400E', margin: 0 }}>
-            ⚠️ You've reached the maximum of {MAX_RULES} rules. Delete a rule to add a new one.
+            ⚠️ Maximum {MAX_RULES} rules reached. Delete a rule to add a new one.
           </p>
         </div>
       )}
