@@ -137,8 +137,12 @@ voiceiq-frontend/
 
 <div align="center">
 
-Built with ❤️ for **HCL GUVI Intern Hiring Hackathon 2026** — Track 3: Call Center Compliance
+Built with ❤️ for **HCL GUVI Intern Hiring Hackathon 2026** - Track 3: Call Center Compliance
 
-**[Live Demo](https://voice-iq-five.vercel.app/) · [Report Bug](https://github.com/JexanJoel/VoiceIQ/issues) · [Request Feature](https://github.com/JexanJoel/VoiceIQ/issues)**
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-4F46E5?style=for-the-badge)](https://voice-iq-five.vercel.app/)
+[![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-D22128?style=for-the-badge)](https://github.com/JexanJoel/VoiceIQ/issues)
+[![Request Feature](https://img.shields.io/badge/✨_Request_Feature-16A34A?style=for-the-badge)](https://github.com/JexanJoel/VoiceIQ/issues)
 
 </div>
