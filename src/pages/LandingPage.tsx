@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const FEATURES = [
@@ -28,51 +28,15 @@ const STATS = [
 ]
 
 const TECH = [
-  {
-    name: 'Groq',
-    logo: 'https://avatars.githubusercontent.com/u/116147397?s=48&v=4',
-    desc: 'Whisper STT + Llama LLM'
-  },
-  {
-    name: 'Supabase',
-    logo: 'https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg',
-    desc: 'Database & Auth'
-  },
-  {
-    name: 'React',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-    desc: 'Frontend UI'
-  },
-  {
-    name: 'Vite',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg',
-    desc: 'Build Tool'
-  },
-  {
-    name: 'TypeScript',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
-    desc: 'Type Safety'
-  },
-  {
-    name: 'Node.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-    desc: 'Backend Runtime'
-  },
-  {
-    name: 'Express',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
-    desc: 'API Framework'
-  },
-  {
-    name: 'Vercel',
-    logo: 'https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png',
-    desc: 'Frontend Deploy'
-  },
-  {
-    name: 'Render',
-    logo: 'https://avatars.githubusercontent.com/u/56928858?s=48&v=4',
-    desc: 'Backend Deploy'
-  },
+  { name: 'Groq', logo: 'https://avatars.githubusercontent.com/u/116147397?s=48&v=4', desc: 'Whisper STT + Llama LLM' },
+  { name: 'Supabase', logo: 'https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg', desc: 'Database & Auth' },
+  { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', desc: 'Frontend UI' },
+  { name: 'Vite', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg', desc: 'Build Tool' },
+  { name: 'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', desc: 'Type Safety' },
+  { name: 'Node.js', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg', desc: 'Backend Runtime' },
+  { name: 'Express', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg', desc: 'API Framework' },
+  { name: 'Vercel', logo: 'https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png', desc: 'Frontend Deploy' },
+  { name: 'Render', logo: 'https://avatars.githubusercontent.com/u/56928858?s=48&v=4', desc: 'Backend Deploy' },
 ]
 
 const WITHOUT = ['Manual listening takes hours', 'Compliance errors go undetected', 'No Hinglish/Tanglish support', 'Inconsistent SOP enforcement', 'No agent performance visibility']
@@ -98,9 +62,6 @@ function TechMarquee() {
           display: flex;
           width: max-content;
           animation: marquee 24s linear infinite;
-        }
-        .marquee-track:hover {
-          animation-play-state: paused;
         }
       `}</style>
       <div className="marquee-track">
@@ -369,7 +330,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#fff', borderTop: '1px solid #F3F4F6' }}>
+      <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#fff' }}>
         <div style={{ maxWidth: '540px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: '40px', marginBottom: '14px' }}>🚀</div>
           <h2 style={{ fontSize: 'clamp(18px,3vw,30px)', fontWeight: '800', color: '#0F172A', letterSpacing: '-0.5px', marginBottom: '12px', whiteSpace: 'nowrap' }}>
