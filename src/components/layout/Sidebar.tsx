@@ -4,6 +4,7 @@ const links = [
   { to: '/dashboard', icon: '📊', label: 'Dashboard' },
   { to: '/dashboard/calls', icon: '📞', label: 'All Calls' },
   { to: '/dashboard/flagged', icon: '🚩', label: 'Flagged Calls' },
+  { to: '/dashboard/agents', icon: '👤', label: 'Agents' },
   { to: '/dashboard/sop-rules', icon: '📋', label: 'SOP Rules' },
 ]
 

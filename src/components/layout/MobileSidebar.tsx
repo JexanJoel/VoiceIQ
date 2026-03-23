@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom'
 const links = [
   { to: '/dashboard', icon: '📊', label: 'Home' },
   { to: '/dashboard/calls', icon: '📞', label: 'Calls' },
+  { to: '/dashboard/agents', icon: '👤', label: 'Agents' },
   { to: '/dashboard/flagged', icon: '🚩', label: 'Flagged' },
-  { to: '/dashboard/sop-rules', icon: '📋', label: 'SOP Rules' },
+  { to: '/dashboard/sop-rules', icon: '📋', label: 'SOP' },
 ]
 
 export default function MobileSidebar() {
@@ -19,9 +20,9 @@ export default function MobileSidebar() {
         <NavLink key={link.to} to={link.to} end={link.to === '/dashboard'}
           style={({ isActive }) => ({
             display: 'flex', flexDirection: 'column', alignItems: 'center',
-            gap: '3px', padding: '4px 12px', borderRadius: '8px',
+            gap: '3px', padding: '4px 8px', borderRadius: '8px',
             color: isActive ? '#E11D48' : '#A8A29E',
-            fontSize: '10px', fontWeight: '600'
+            fontSize: '9px', fontWeight: '600'
           })}
         >
           <span style={{ fontSize: '18px' }}>{link.icon}</span>

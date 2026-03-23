@@ -37,4 +37,11 @@ export const updateSopRule = (id: string, data: { rule_text: string; category: s
 export const deleteSopRule = (id: string) => api.delete(`/api/sop/${id}`)
 export const toggleSopRule = (id: string) => api.patch(`/api/sop/${id}/toggle`)
 
+// Agents
+export const getAgents = () => api.get('/api/agents')
+export const createAgent = (name: string) => api.post('/api/agents', { name })
+export const deleteAgent = (id: string) => api.delete(`/api/agents/${id}`)
+export const getAgentStats = () => api.get('/api/agents/stats')
+export const getAgentCalls = (id: string) => api.get(`/api/agents/${id}/calls`)
+
 export default api
