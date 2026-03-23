@@ -30,7 +30,7 @@ Indian call centers handle thousands of calls daily. Supervisors manually listen
 ## ✨ Features
 
 #### 🗣️ Hinglish & Tanglish STT
-Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy — no manual effort.
+Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy - no manual effort.
 
 #### ✅ SOP Compliance Validation
 Every call is scored against your custom SOP rules. Violations are flagged with exact rule references.
@@ -42,7 +42,7 @@ Detect caller mood and agent tone across every interaction. Spot negative patter
 Automatically categorize whether customers prefer cash, UPI, card, or other payment methods.
 
 #### 🚩 Instant Call Flagging
-Calls below 70% SOP compliance are automatically flagged for manager review — zero manual listening.
+Calls below 70% SOP compliance are automatically flagged for manager review - zero manual listening.
 
 #### 📊 Live Analytics Dashboard
 Real-time charts on compliance trends, sentiment distribution, language breakdown, and top violations.
@@ -64,7 +64,7 @@ Listen to the original call recording side by side with the AI transcript and co
 <div align="center">
 
 | Layer | Technology |
-|:---:|---|
+|:---:|:---:|
 | **Frontend** | React 18 · Vite · TypeScript |
 | **Backend** | Node.js · Express |
 | **Supabase** | PostgreSQL · Auth · Storage |
