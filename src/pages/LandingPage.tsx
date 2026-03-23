@@ -3,30 +3,33 @@ import { useNavigate } from 'react-router-dom'
 
 const FEATURES = [
   { icon: '🗣️', title: 'Hinglish & Tanglish STT', desc: 'Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy — no manual effort.' },
-  { icon: '✅', title: 'SOP Compliance Validation', desc: 'Every call is scored against your SOPs automatically. Violations are flagged with exact rule references.' },
+  { icon: '✅', title: 'SOP Compliance Validation', desc: 'Every call is scored against your custom SOP rules automatically. Violations are flagged with exact rule references.' },
   { icon: '😊', title: 'Sentiment Analysis', desc: 'Detect caller mood and agent tone across every interaction. Spot negative patterns before they escalate.' },
   { icon: '💳', title: 'Payment Preference Detection', desc: 'Automatically categorize whether customers prefer cash, UPI, card, or other payment methods.' },
   { icon: '🚩', title: 'Instant Call Flagging', desc: 'Calls below 70% SOP compliance are automatically flagged for manager review — zero manual listening.' },
   { icon: '📊', title: 'Live Analytics Dashboard', desc: 'Real-time charts on compliance trends, sentiment distribution, language breakdown, and top violations.' },
+  { icon: '👤', title: 'Agent Performance Tracking', desc: 'Track compliance scores per agent, see a leaderboard ranked by performance, and identify who needs coaching.' },
+  { icon: '📋', title: 'Custom SOP Rules Manager', desc: 'Define your own compliance rules per category — greeting, identity, payment, closing, and more. Max 10 rules.' },
+  { icon: '🎙️', title: 'Audio Player', desc: 'Listen to the original call recording side by side with the AI transcript and analysis on the same page.' },
 ]
 
 const STEPS = [
   { n: '01', icon: '📤', title: 'Upload Recording', desc: 'Drop any MP3, WAV or M4A. Hinglish & Tanglish both supported out of the box.' },
   { n: '02', icon: '🤖', title: 'AI Transcription', desc: 'Groq Whisper transcribes in seconds with automatic language detection.' },
-  { n: '03', icon: '✅', title: 'SOP Analysis', desc: 'Llama 3.3 70B validates the transcript, scores compliance, and detects violations.' },
-  { n: '04', icon: '📊', title: 'Dashboard Insights', desc: 'View sentiment, violations, payment preference, and full transcript in one place.' },
+  { n: '03', icon: '✅', title: 'SOP Analysis', desc: 'Llama 3.3 70B validates the transcript against your custom rules and scores compliance.' },
+  { n: '04', icon: '📊', title: 'Dashboard Insights', desc: 'View sentiment, violations, payment preference, agent stats, and full transcript in one place.' },
 ]
 
 const STATS = [
   { v: '< 30s', l: 'Per Recording' },
   { v: '2', l: 'Languages' },
-  { v: '6', l: 'SOP Checks' },
+  { v: '9', l: 'Features' },
   { v: '100%', l: 'AI Automated' },
 ]
 
 const TECH = ['Groq Whisper', 'Llama 3.3 70B', 'Supabase', 'React + Vite', 'Node.js + Express', 'TypeScript']
-const WITHOUT = ['Manual listening takes hours', 'Compliance errors go undetected', 'No Hinglish/Tanglish support', 'Inconsistent SOP enforcement', 'No data-driven insights']
-const WITH = ['Full analysis in under 30 seconds', 'Every violation automatically flagged', 'Native Hinglish & Tanglish support', 'Consistent AI-powered SOP scoring', 'Real-time dashboard & trend reports']
+const WITHOUT = ['Manual listening takes hours', 'Compliance errors go undetected', 'No Hinglish/Tanglish support', 'Inconsistent SOP enforcement', 'No agent performance visibility']
+const WITH = ['Full analysis in under 30 seconds', 'Every violation automatically flagged', 'Native Hinglish & Tanglish support', 'Custom SOP rules per organization', 'Agent leaderboard with performance stats']
 const GITHUB_URL = 'https://github.com/JexanJoel/VoiceIQ'
 
 const GH = (size = 13) => (
@@ -45,15 +48,11 @@ export default function LandingPage() {
       {/* ── Nav ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #F3F4F6' }}>
         <div style={{ height: '60px', display: 'flex', alignItems: 'center', padding: '0 clamp(16px,5vw,80px)', justifyContent: 'space-between' }}>
-
-          {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', boxShadow: '0 3px 10px rgba(225,29,72,0.25)' }}>🎙️</div>
             <span style={{ fontWeight: '800', fontSize: '17px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
             <span style={{ background: '#F0FDF4', color: '#16A34A', border: '1px solid #BBF7D0', borderRadius: '99px', fontSize: '10px', fontWeight: '700', padding: '2px 8px' }}>Open Source</span>
           </div>
-
-          {/* Desktop nav */}
           <div className="nav-desktop" style={{ gap: '8px', alignItems: 'center' }}>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 14px', fontSize: '12px', fontWeight: '600', color: '#374151', textDecoration: 'none', background: 'none' }}>
               {GH(13)} GitHub
@@ -61,33 +60,17 @@ export default function LandingPage() {
             <button onClick={() => navigate('/login')} style={{ background: 'none', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '7px 16px', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', borderRadius: '8px', padding: '8px 18px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 3px 10px rgba(225,29,72,0.25)' }}>Get Started →</button>
           </div>
-
-          {/* Hamburger */}
-          <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)} style={{
-            width: '36px', height: '36px', borderRadius: '8px',
-            border: '1px solid #E5E7EB', background: '#fff', cursor: 'pointer',
-            fontSize: '18px', color: '#374151', fontFamily: 'inherit',
-            alignItems: 'center', justifyContent: 'center', padding: 0, lineHeight: 1
-          }}>
+          <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)} style={{ width: '36px', height: '36px', borderRadius: '8px', border: '1px solid #E5E7EB', background: '#fff', cursor: 'pointer', fontSize: '18px', color: '#374151', fontFamily: 'inherit', alignItems: 'center', justifyContent: 'center', padding: 0, lineHeight: 1 }}>
             {menuOpen ? '✕' : '☰'}
           </button>
         </div>
-
-        {/* Mobile dropdown */}
         {menuOpen && (
           <div className="mobile-menu" style={{ flexDirection: 'column', gap: '8px', padding: '12px 16px 16px', borderTop: '1px solid #F3F4F6', background: '#fff' }}>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', border: '1px solid #E5E7EB' }}>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', border: '1px solid #E5E7EB' }}>
               {GH(14)} View on GitHub
             </a>
-            <button onClick={() => { navigate('/login'); setMenuOpen(false) }}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>
-              Sign In
-            </button>
-            <button onClick={() => { navigate('/signup'); setMenuOpen(false) }}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
-              Get Started →
-            </button>
+            <button onClick={() => { navigate('/login'); setMenuOpen(false) }} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: '#F9FAFB', border: '1px solid #E5E7EB', fontSize: '13px', fontWeight: '600', color: '#374151', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
+            <button onClick={() => { navigate('/signup'); setMenuOpen(false) }} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '11px 12px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>Get Started →</button>
           </div>
         )}
       </nav>
@@ -105,7 +88,7 @@ export default function LandingPage() {
             <span style={{ background: 'linear-gradient(135deg, #E11D48, #FB7185)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Compliance Intelligence</span>
           </h1>
           <p style={{ fontSize: 'clamp(13px,1.5vw,16px)', color: '#6B7280', lineHeight: 1.7, maxWidth: '500px', margin: '0 auto 32px' }}>
-            Automatically transcribe Hinglish & Tanglish calls, validate SOP compliance, detect sentiment, and surface insights — all in under 30 seconds.
+            Automatically transcribe Hinglish & Tanglish calls, validate SOP compliance, track agent performance, and surface insights — all in under 30 seconds.
           </p>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '14px' }}>
             <button onClick={() => navigate('/signup')} style={{ background: 'linear-gradient(135deg, #E11D48, #F43F5E)', color: '#fff', border: 'none', borderRadius: '10px', padding: 'clamp(10px,1.5vw,13px) clamp(18px,3vw,28px)', fontSize: 'clamp(13px,1.3vw,14px)', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 6px 20px rgba(225,29,72,0.28)', whiteSpace: 'nowrap' }}>
@@ -137,16 +120,16 @@ export default function LandingPage() {
             <div style={{ padding: '14px 18px' }}>
               <div style={{ fontSize: '10px', fontWeight: '700', color: '#374151', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Recent Calls</div>
               {[
-                { name: 'call_recording_001.mp3', compliance: 94, sentiment: 'positive', lang: 'HI', flag: false },
-                { name: 'call_recording_002.wav', compliance: 58, sentiment: 'negative', lang: 'TA', flag: true },
-                { name: 'call_recording_003.mp3', compliance: 88, sentiment: 'neutral', lang: 'HI', flag: false },
+                { name: 'call_recording_001.mp3', compliance: 94, sentiment: 'positive', lang: 'HI', agent: 'Priya S.' },
+                { name: 'call_recording_002.wav', compliance: 58, sentiment: 'negative', lang: 'TA', agent: 'Rahul M.' },
+                { name: 'call_recording_003.mp3', compliance: 88, sentiment: 'neutral', lang: 'HI', agent: 'Priya S.' },
               ].map((c, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < 2 ? '1px solid #F9FAFB' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '9px', minWidth: 0 }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '7px', background: c.flag ? '#FEF2F2' : '#F9FAFB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', flexShrink: 0 }}>{c.flag ? '🚩' : '📞'}</div>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '7px', background: c.compliance < 70 ? '#FEF2F2' : '#F9FAFB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', flexShrink: 0 }}>{c.compliance < 70 ? '🚩' : '📞'}</div>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontSize: '12px', fontWeight: '600', color: '#1F2937', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.name}</div>
-                      <div style={{ fontSize: '10px', color: '#9CA3AF' }}>{c.lang} · {c.sentiment}</div>
+                      <div style={{ fontSize: '10px', color: '#9CA3AF' }}>{c.lang} · {c.sentiment} · 👤 {c.agent}</div>
                     </div>
                   </div>
                   <span style={{ fontSize: '11px', fontWeight: '700', padding: '3px 8px', borderRadius: '99px', background: c.compliance >= 80 ? '#DCFCE7' : '#FEF9C3', color: c.compliance >= 80 ? '#166534' : '#854D0E', flexShrink: 0 }}>{c.compliance}%</span>
@@ -191,16 +174,55 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── How it Works ── */}
+      {/* ── Agent Leaderboard Preview ── */}
       <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#fff' }}>
+        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <div style={pill}>AGENT TRACKING</div>
+            <h2 style={sectionH2}>Know who's performing — and who needs coaching</h2>
+            <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '10px' }}>
+              Assign calls to agents and track compliance scores, sentiment, and violations per person.
+            </p>
+          </div>
+          <div style={{ background: '#FAFAFA', border: '1px solid #F3F4F6', borderRadius: '16px', overflow: 'hidden' }}>
+            <div style={{ background: '#F9FAFB', borderBottom: '1px solid #F3F4F6', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: '#374151' }}>Agent Leaderboard</span>
+              <span style={{ fontSize: '11px', color: '#9CA3AF' }}>Ranked by avg SOP compliance</span>
+            </div>
+            {[
+              { rank: '🥇', name: 'Priya Sharma', calls: 24, compliance: 94, sentiment: 'positive', sentBg: '#DCFCE7', sentColor: '#166534' },
+              { rank: '🥈', name: 'Amit Kumar', calls: 18, compliance: 81, sentiment: 'neutral', sentBg: '#FEF9C3', sentColor: '#854D0E' },
+              { rank: '🥉', name: 'Rahul Mehta', calls: 20, compliance: 61, sentiment: 'negative', sentBg: '#FEE2E2', sentColor: '#991B1B' },
+            ].map((a, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 20px', borderBottom: i < 2 ? '1px solid #F3F4F6' : 'none', background: '#fff' }}>
+                <span style={{ fontSize: '20px', flexShrink: 0 }}>{a.rank}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: '700', fontSize: '14px', color: '#111827' }}>{a.name}</div>
+                  <div style={{ fontSize: '11px', color: '#9CA3AF', marginTop: '1px' }}>{a.calls} calls analyzed</div>
+                </div>
+                <div style={{ textAlign: 'center', flexShrink: 0 }}>
+                  <div style={{ fontSize: '16px', fontWeight: '800', color: a.compliance >= 80 ? '#059669' : '#D97706' }}>{a.compliance}%</div>
+                  <div style={{ fontSize: '10px', color: '#9CA3AF' }}>Avg SOP</div>
+                </div>
+                <div style={{ padding: '4px 10px', borderRadius: '99px', fontSize: '11px', fontWeight: '700', background: a.sentBg, color: a.sentColor, flexShrink: 0 }}>
+                  {a.sentiment}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it Works ── */}
+      <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#FAFAFA' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div style={pill}>HOW IT WORKS</div>
             <h2 style={sectionH2}>From upload to insight in under 30 seconds</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '12px' }}>
             {STEPS.map((s, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', background: '#FAFAFA', border: '1px solid #F3F4F6', borderRadius: '13px', padding: '18px' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', background: '#fff', border: '1px solid #F3F4F6', borderRadius: '13px', padding: '18px' }}>
                 <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 12px rgba(225,29,72,0.2)' }}>
                   <span style={{ fontSize: '7px', color: 'rgba(255,255,255,0.6)', fontWeight: '700' }}>{s.n}</span>
                   <span style={{ fontSize: '15px', lineHeight: 1 }}>{s.icon}</span>
@@ -216,7 +238,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Comparison ── */}
-      <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#FAFAFA' }}>
+      <section style={{ padding: 'clamp(56px,8vw,90px) clamp(16px,5vw,80px)', background: '#fff' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <div style={pill}>WHY VOICEIQ</div>
@@ -252,12 +274,12 @@ export default function LandingPage() {
       </section>
 
       {/* ── Tech Stack ── */}
-      <section style={{ padding: 'clamp(40px,5vw,60px) clamp(16px,5vw,80px)', background: '#fff' }}>
+      <section style={{ padding: 'clamp(40px,5vw,60px) clamp(16px,5vw,80px)', background: '#FAFAFA' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', letterSpacing: '1.5px', marginBottom: '16px' }}>POWERED BY</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px' }}>
             {TECH.map(t => (
-              <div key={t} style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', padding: '6px 14px', borderRadius: '99px', fontSize: '12px', fontWeight: '600', color: '#374151' }}>{t}</div>
+              <div key={t} style={{ background: '#fff', border: '1px solid #E5E7EB', padding: '6px 14px', borderRadius: '99px', fontSize: '12px', fontWeight: '600', color: '#374151' }}>{t}</div>
             ))}
           </div>
         </div>
@@ -287,7 +309,7 @@ export default function LandingPage() {
 
       {/* ── Footer ── */}
       <footer style={{ borderTop: '1px solid #F3F4F6', background: '#FAFAFA', padding: '20px clamp(16px,5vw,80px)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span>🎙️</span>
             <span style={{ fontWeight: '800', fontSize: '14px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VoiceIQ</span>
@@ -304,7 +326,6 @@ export default function LandingPage() {
         .nav-desktop { display: flex; }
         .hamburger-btn { display: none; }
         .mobile-menu { display: none; }
-
         @media (max-width: 640px) {
           .nav-desktop { display: none !important; }
           .hamburger-btn { display: flex !important; }
