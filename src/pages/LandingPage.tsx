@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const FEATURES = [
@@ -27,7 +27,54 @@ const STATS = [
   { v: '100%', l: 'AI Automated' },
 ]
 
-const TECH = ['Groq Whisper', 'Llama 3.3 70B', 'Supabase', 'React + Vite', 'Node.js + Express', 'TypeScript']
+const TECH = [
+  {
+    name: 'Groq',
+    logo: 'https://avatars.githubusercontent.com/u/116147397?s=48&v=4',
+    desc: 'Whisper STT + Llama LLM'
+  },
+  {
+    name: 'Supabase',
+    logo: 'https://www.vectorlogo.zone/logos/supabase/supabase-icon.svg',
+    desc: 'Database & Auth'
+  },
+  {
+    name: 'React',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    desc: 'Frontend UI'
+  },
+  {
+    name: 'Vite',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg',
+    desc: 'Build Tool'
+  },
+  {
+    name: 'TypeScript',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+    desc: 'Type Safety'
+  },
+  {
+    name: 'Node.js',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+    desc: 'Backend Runtime'
+  },
+  {
+    name: 'Express',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
+    desc: 'API Framework'
+  },
+  {
+    name: 'Vercel',
+    logo: 'https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png',
+    desc: 'Frontend Deploy'
+  },
+  {
+    name: 'Render',
+    logo: 'https://avatars.githubusercontent.com/u/56928858?s=48&v=4',
+    desc: 'Backend Deploy'
+  },
+]
+
 const WITHOUT = ['Manual listening takes hours', 'Compliance errors go undetected', 'No Hinglish/Tanglish support', 'Inconsistent SOP enforcement', 'No agent performance visibility']
 const WITH = ['Full analysis in under 30 seconds', 'Every violation automatically flagged', 'Native Hinglish & Tanglish support', 'Custom SOP rules per organization', 'Agent leaderboard with performance stats']
 const GITHUB_URL = 'https://github.com/JexanJoel/VoiceIQ'
@@ -37,6 +84,50 @@ const GH = (size = 13) => (
     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
   </svg>
 )
+
+function TechMarquee() {
+  const items = [...TECH, ...TECH]
+  return (
+    <div style={{ overflow: 'hidden', width: '100%' }}>
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          display: flex;
+          width: max-content;
+          animation: marquee 24s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+      <div className="marquee-track">
+        {items.map((tech, i) => (
+          <div key={i} style={{
+            display: 'flex', alignItems: 'center', gap: '10px',
+            background: '#fff', border: '1px solid #F3F4F6',
+            borderRadius: '12px', padding: '10px 18px',
+            marginRight: '12px', flexShrink: 0,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+          }}>
+            <img
+              src={tech.logo}
+              alt={tech.name}
+              style={{ width: '22px', height: '22px', objectFit: 'contain', borderRadius: '4px' }}
+              onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+            />
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: '#0F172A', whiteSpace: 'nowrap' }}>{tech.name}</div>
+              <div style={{ fontSize: '10px', color: '#9CA3AF', whiteSpace: 'nowrap' }}>{tech.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -180,9 +271,7 @@ export default function LandingPage() {
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <div style={pill}>AGENT TRACKING</div>
             <h2 style={sectionH2}>Know who's performing — and who needs coaching</h2>
-            <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '10px' }}>
-              Assign calls to agents and track compliance scores, sentiment, and violations per person.
-            </p>
+            <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '10px' }}>Assign calls to agents and track compliance scores, sentiment, and violations per person.</p>
           </div>
           <div style={{ background: '#FAFAFA', border: '1px solid #F3F4F6', borderRadius: '16px', overflow: 'hidden' }}>
             <div style={{ background: '#F9FAFB', borderBottom: '1px solid #F3F4F6', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -273,16 +362,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Tech Stack ── */}
-      <section style={{ padding: 'clamp(40px,5vw,60px) clamp(16px,5vw,80px)', background: '#FAFAFA' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', letterSpacing: '1.5px', marginBottom: '16px' }}>POWERED BY</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px' }}>
-            {TECH.map(t => (
-              <div key={t} style={{ background: '#fff', border: '1px solid #E5E7EB', padding: '6px 14px', borderRadius: '99px', fontSize: '12px', fontWeight: '600', color: '#374151' }}>{t}</div>
-            ))}
-          </div>
-        </div>
+      {/* ── Tech Stack Marquee ── */}
+      <section style={{ padding: 'clamp(40px,5vw,60px) 0', background: '#FAFAFA', borderTop: '1px solid #F3F4F6', borderBottom: '1px solid #F3F4F6' }}>
+        <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', letterSpacing: '1.5px', marginBottom: '20px', textAlign: 'center' }}>POWERED BY</p>
+        <TechMarquee />
       </section>
 
       {/* ── CTA ── */}
