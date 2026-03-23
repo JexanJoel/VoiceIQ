@@ -58,22 +58,20 @@ Listen to the original call recording side by side with the AI transcript and co
 
 ---
 
-## 🛠️ Tech Stack
 
-<div align="center">
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| **Frontend** | React 18 + Vite + TypeScript |
-| **Backend** | Node.js + Express (ESM) |
-| **Database** | Supabase (PostgreSQL) |
-| **Charts** | Recharts |
-| **Auth** | Supabase Auth - Email + Google OAuth |
-| **Speech-to-Text** | Groq Whisper large-v3 |
-| **AI / NLP** | Groq + Llama 3.3 70B |
-| **File Storage** | Supabase Storage — Private Bucket |
-
-</div>
+| **Frontend** | ![React](https://img.shields.io/badge/React_18-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) |
+| **Backend** | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) |
+| **Database** | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) |
+| **Auth** | ![Supabase](https://img.shields.io/badge/Supabase_Auth-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![Google](https://img.shields.io/badge/Google_OAuth-4285F4?style=flat-square&logo=google&logoColor=white) |
+| **Speech-to-Text** | ![Groq](https://img.shields.io/badge/Groq_Whisper-F55036?style=flat-square&logo=groq&logoColor=white) |
+| **AI / NLP** | ![Groq](https://img.shields.io/badge/Groq_Llama_3.3_70B-F55036?style=flat-square&logo=groq&logoColor=white) |
+| **File Storage** | ![Supabase](https://img.shields.io/badge/Supabase_Storage-3ECF8E?style=flat-square&logo=supabase&logoColor=white) |
+| **Charts** | ![Recharts](https://img.shields.io/badge/Recharts-22B5BF?style=flat-square&logo=chartdotjs&logoColor=white) |
+| **Deploy** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white) ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white) |
 
 ---
 
@@ -128,11 +126,7 @@ voiceiq-frontend/
 
 ## 📄 License
 
-<div align="center">
-
-Licensed under the [Apache 2.0 License](./LICENSE).
-
-</div>
+[![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache&logoColor=white)](./LICENSE)
 
 ---
 
