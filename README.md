@@ -64,13 +64,13 @@ Listen to the original call recording side by side with the AI transcript and co
 <div align="center">
 
 | Layer | Technology |
-|:---:|:---:|
-| **Frontend** | ![React](https://img.shields.io/badge/React_18-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) |
-| **Backend** | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) |
-| **Supabase** | ![Database](https://img.shields.io/badge/Database-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![Auth](https://img.shields.io/badge/Auth-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![Storage](https://img.shields.io/badge/Storage-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![Google OAuth](https://img.shields.io/badge/Google_OAuth-4285F4?style=flat-square&logo=google&logoColor=white) |
-| **AI / STT** | ![Groq Whisper](https://img.shields.io/badge/Whisper_large--v3-F55036?style=flat-square&logo=groq&logoColor=white) ![Llama](https://img.shields.io/badge/Llama_3.3_70B-F55036?style=flat-square&logo=groq&logoColor=white) |
-| **Charts** | ![Recharts](https://img.shields.io/badge/Recharts-22B5BF?style=flat-square&logo=chartdotjs&logoColor=white) |
-| **Deploy** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white) ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white) |
+|:---:|---|
+| **Frontend** | React 18 · Vite · TypeScript |
+| **Backend** | Node.js · Express |
+| **Supabase** | PostgreSQL · Auth · Storage |
+| **AI / STT** | Groq Whisper large-v3 · Llama 3.3 70B |
+| **Charts** | Recharts |
+| **Deploy** | Vercel · Render |
 
 </div>
 
@@ -127,7 +127,11 @@ voiceiq-frontend/
 
 ## 📄 License
 
+<div align="center">
+
 [![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache&logoColor=white)](./LICENSE)
+
+</div>
 
 ---
 
