@@ -29,36 +29,38 @@ Indian call centers handle thousands of calls daily. Supervisors manually listen
 
 ## ✨ Features
 
-**🗣️ Hinglish & Tanglish STT**
+#### 🗣️ Hinglish & Tanglish STT
 Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy — no manual effort.
 
-**✅ SOP Compliance Validation**
+#### ✅ SOP Compliance Validation
 Every call is scored against your custom SOP rules. Violations are flagged with exact rule references.
 
-**😊 Sentiment Analysis**
+#### 😊 Sentiment Analysis
 Detect caller mood and agent tone across every interaction. Spot negative patterns before they escalate.
 
-**💳 Payment Preference Detection**
+#### 💳 Payment Preference Detection
 Automatically categorize whether customers prefer cash, UPI, card, or other payment methods.
 
-**🚩 Instant Call Flagging**
+#### 🚩 Instant Call Flagging
 Calls below 70% SOP compliance are automatically flagged for manager review — zero manual listening.
 
-**📊 Live Analytics Dashboard**
+#### 📊 Live Analytics Dashboard
 Real-time charts on compliance trends, sentiment distribution, language breakdown, and top violations.
 
-**👤 Agent Performance Tracking**
+#### 👤 Agent Performance Tracking
 Leaderboard ranked by compliance %, with per-agent violations, sentiment trends, and call history.
 
-**📋 Custom SOP Rules Manager**
+#### 📋 Custom SOP Rules Manager
 Define your own compliance rules per category — greeting, identity, payment, closing, and more. Up to 10 rules.
 
-**🎙️ Audio Player**
+#### 🎙️ Audio Player
 Listen to the original call recording side by side with the AI transcript and compliance analysis.
 
 ---
 
 ## 🛠️ Tech Stack
+
+<div align="center">
 
 | Layer | Technology |
 |---|---|
@@ -70,6 +72,8 @@ Listen to the original call recording side by side with the AI transcript and co
 | **Speech-to-Text** | Groq Whisper large-v3 |
 | **AI / NLP** | Groq + Llama 3.3 70B |
 | **File Storage** | Supabase Storage — Private Bucket |
+
+</div>
 
 ---
 
@@ -124,7 +128,11 @@ voiceiq-frontend/
 
 ## 📄 License
 
+<div align="center">
+
 Licensed under the [Apache 2.0 License](./LICENSE).
+
+</div>
 
 ---
 
