@@ -140,65 +140,57 @@ export default function AgentsPage() {
             const compColor = getComplianceColor(stat.avg_compliance)
 
             return (
-              <Card key={stat.agent_id || 'unknown'}
+              <Card
+                key={stat.agent_id || 'unknown'}
                 onClick={!isUnknown ? () => navigate(`/dashboard/agents/${stat.agent_id}`) : undefined}
                 style={{ cursor: isUnknown ? 'default' : 'pointer' }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-
-                  {/* Rank */}
+                {/* Top row — rank + name */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                   <div style={{
-                    width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0,
+                    width: '38px', height: '38px', borderRadius: '10px', flexShrink: 0,
                     background: i < 3 ? '#FFF1F2' : '#F9FAFB',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: i < 3 ? '22px' : '14px',
+                    fontSize: i < 3 ? '20px' : '13px',
                     fontWeight: '800', color: '#9CA3AF'
                   }}>
                     {i < 3 ? medals[i] : `#${i + 1}`}
                   </div>
-
-                  {/* Name + violation */}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: '700', fontSize: '15px', color: '#111827', marginBottom: '3px' }}>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: '#111827' }}>
                       {stat.agent_name}
-                      {isUnknown && <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: '400', marginLeft: '8px' }}>(unassigned calls)</span>}
+                      {isUnknown && (
+                        <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: '400', marginLeft: '6px' }}>
+                          (unassigned)
+                        </span>
+                      )}
                     </div>
                     {stat.top_violation && (
-                      <div style={{ fontSize: '12px', color: '#9CA3AF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        ⚠️ Most common: {stat.top_violation}
+                      <div style={{ fontSize: '11px', color: '#9CA3AF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '2px' }}>
+                        ⚠️ {stat.top_violation}
                       </div>
                     )}
                   </div>
+                  {!isUnknown && (
+                    <span style={{ fontSize: '12px', color: '#E11D48', fontWeight: '600', flexShrink: 0 }}>View →</span>
+                  )}
+                </div>
 
-                  {/* Stats */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, flexWrap: 'wrap' }}>
-
-                    {/* Total calls */}
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#111827' }}>{stat.total_calls}</div>
-                      <div style={{ fontSize: '10px', color: '#9CA3AF' }}>Calls</div>
-                    </div>
-
-                    {/* Compliance */}
-                    <div style={{ textAlign: 'center', minWidth: '60px' }}>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: compColor }}>{stat.avg_compliance}%</div>
-                      <div style={{ fontSize: '10px', color: '#9CA3AF' }}>Avg SOP</div>
-                    </div>
-
-                    {/* Sentiment */}
-                    <div style={{
-                      padding: '4px 10px', borderRadius: '99px', fontSize: '11px', fontWeight: '700',
-                      background: sColor.bg, color: sColor.color
-                    }}>
-                      {stat.dominant_sentiment}
-                    </div>
-
-                    {/* View calls */}
-                    {!isUnknown && (
-                      <div style={{ fontSize: '12px', color: '#E11D48', fontWeight: '600' }}>
-                        View →
-                      </div>
-                    )}
+                {/* Bottom row — stats */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingTop: '10px', borderTop: '1px solid #F9FAFB' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '800', color: '#111827' }}>{stat.total_calls}</div>
+                    <div style={{ fontSize: '10px', color: '#9CA3AF' }}>Calls</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '800', color: compColor }}>{stat.avg_compliance}%</div>
+                    <div style={{ fontSize: '10px', color: '#9CA3AF' }}>Avg SOP</div>
+                  </div>
+                  <div style={{
+                    padding: '4px 10px', borderRadius: '99px', fontSize: '11px', fontWeight: '700',
+                    background: sColor.bg, color: sColor.color
+                  }}>
+                    {stat.dominant_sentiment}
                   </div>
                 </div>
               </Card>

@@ -2,19 +2,18 @@ import { useState, useEffect } from 'react'
 import { getSopRules, createSopRule, deleteSopRule, toggleSopRule, updateSopRule } from '../../services/api'
 import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
-import Badge from '../../components/ui/Badge'
 import Loader from '../../components/ui/Loader'
 
 const MAX_RULES = 10
 
 const CATEGORIES = [
-  { value: 'greeting', label: '👋 Greeting', color: 'info' },
-  { value: 'identity', label: '🪪 Identity', color: 'info' },
-  { value: 'language', label: '🗣️ Language', color: 'info' },
-  { value: 'problem_confirmation', label: '🔍 Problem Confirmation', color: 'warning' },
-  { value: 'payment', label: '💳 Payment', color: 'warning' },
-  { value: 'closing', label: '👍 Closing', color: 'success' },
-  { value: 'custom', label: '⚙️ Custom', color: 'neutral' },
+  { value: 'greeting', label: '👋 Greeting', color: '#EEF2FF', textColor: '#3730A3' },
+  { value: 'identity', label: '🪪 Identity', color: '#EEF2FF', textColor: '#3730A3' },
+  { value: 'language', label: '🗣️ Language', color: '#EEF2FF', textColor: '#3730A3' },
+  { value: 'problem_confirmation', label: '🔍 Confirmation', color: '#FEF9C3', textColor: '#854D0E' },
+  { value: 'payment', label: '💳 Payment', color: '#FEF9C3', textColor: '#854D0E' },
+  { value: 'closing', label: '👍 Closing', color: '#DCFCE7', textColor: '#166534' },
+  { value: 'custom', label: '⚙️ Custom', color: '#F3F4F6', textColor: '#374151' },
 ] as const
 
 const DEFAULT_RULES = [
@@ -157,7 +156,6 @@ export default function SOPRulesPage() {
         )}
       </div>
 
-      {/* Error */}
       {error && (
         <div style={{ background: '#FEE2E2', color: '#991B1B', padding: '10px 14px', borderRadius: '8px', fontSize: '13px' }}>
           ⚠️ {error}
@@ -171,14 +169,8 @@ export default function SOPRulesPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Category</label>
-              <select
-                value={newRule.category}
-                onChange={e => setNewRule(p => ({ ...p, category: e.target.value }))}
-                style={inputStyle}
-              >
-                {CATEGORIES.map(c => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
+              <select value={newRule.category} onChange={e => setNewRule(p => ({ ...p, category: e.target.value }))} style={inputStyle}>
+                {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
             </div>
             <div>
@@ -199,144 +191,121 @@ export default function SOPRulesPage() {
         </Card>
       )}
 
-      {/* ── No custom rules — show defaults as preview ── */}
+      {/* No custom rules — defaults preview */}
       {!hasCustomRules && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-
-          {/* Banner */}
-          <div style={{
-            background: '#FFFBEB', border: '1px solid #FDE68A',
-            borderRadius: '12px', padding: '16px 18px',
-            display: 'flex', alignItems: 'flex-start', gap: '12px'
-          }}>
+          <div style={{ background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: '12px', padding: '16px 18px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
             <span style={{ fontSize: '20px', flexShrink: 0 }}>⚡</span>
             <div style={{ flex: 1 }}>
               <p style={{ fontSize: '13px', fontWeight: '700', color: '#92400E', margin: '0 0 4px' }}>
                 You're currently using the 6 default rules
               </p>
               <p style={{ fontSize: '13px', color: '#78716C', margin: '0 0 12px', lineHeight: 1.6 }}>
-                These are applied to every call you analyze. You can use them as-is, customize them, or start fresh with your own rules.
+                These are applied to every call. Customize them or start fresh.
               </p>
-              <Button size="sm" loading={saving} onClick={handleUseDefaults}>
-                ✓ Use these as my rules
-              </Button>
+              <Button size="sm" loading={saving} onClick={handleUseDefaults}>✓ Use these as my rules</Button>
             </div>
           </div>
 
-          {/* Default rules preview */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {DEFAULT_RULES.map((rule, i) => {
               const cat = getCategoryInfo(rule.category)
               return (
-                <div key={i} style={{
-                  display: 'flex', alignItems: 'flex-start', gap: '12px',
-                  background: '#FAFAFA', border: '1px dashed #E5E7EB',
-                  borderRadius: '12px', padding: '14px 16px',
-                  opacity: 0.75
-                }}>
-                  <div style={{
-                    width: '26px', height: '26px', borderRadius: '7px', flexShrink: 0,
-                    background: '#F3F4F6', display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', fontSize: '12px', fontWeight: '800', color: '#9CA3AF'
-                  }}>{i + 1}</div>
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', background: '#FAFAFA', border: '1px dashed #E5E7EB', borderRadius: '12px', padding: '14px 16px', opacity: 0.75 }}>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '7px', flexShrink: 0, background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '800', color: '#9CA3AF' }}>{i + 1}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                      <Badge variant={cat.color as any}>{cat.label}</Badge>
-                      <span style={{ fontSize: '10px', color: '#9CA3AF', fontWeight: '600', background: '#F3F4F6', padding: '2px 7px', borderRadius: '99px' }}>DEFAULT</span>
+                    <div style={{ marginBottom: '5px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '700', padding: '3px 8px', borderRadius: '6px', background: cat.color, color: cat.textColor }}>{cat.label}</span>
+                      <span style={{ fontSize: '10px', color: '#9CA3AF', fontWeight: '600', background: '#F3F4F6', padding: '2px 7px', borderRadius: '99px', marginLeft: '6px' }}>DEFAULT</span>
                     </div>
-                    <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>
-                      {rule.rule_text}
-                    </p>
+                    <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>{rule.rule_text}</p>
                   </div>
                 </div>
               )
             })}
           </div>
-
-          <p style={{ fontSize: '12px', color: '#9CA3AF', textAlign: 'center' }}>
-            Click "+ Add Rule" to start building your own custom ruleset
-          </p>
+          <p style={{ fontSize: '12px', color: '#9CA3AF', textAlign: 'center' }}>Click "+ Add Rule" to build your own ruleset</p>
         </div>
       )}
 
-      {/* ── Has custom rules — show them ── */}
+      {/* Has custom rules */}
       {hasCustomRules && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {rules.map((rule, i) => (
             <Card key={rule.id}>
               {edit?.id === rule.id ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <select
-                    value={edit.category}
-                    onChange={e => setEdit(p => p ? { ...p, category: e.target.value } : p)}
-                    style={inputStyle}
-                  >
-                    {CATEGORIES.map(c => (
-                      <option key={c.value} value={c.value}>{c.label}</option>
-                    ))}
+                  <select value={edit.category} onChange={e => setEdit(p => p ? { ...p, category: e.target.value } : p)} style={inputStyle}>
+                    {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
                   </select>
-                  <textarea
-                    value={edit.rule_text}
-                    onChange={e => setEdit(p => p ? { ...p, rule_text: e.target.value } : p)}
-                    rows={2}
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                  />
+                  <textarea value={edit.rule_text} onChange={e => setEdit(p => p ? { ...p, rule_text: e.target.value } : p)} rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <Button size="sm" loading={saving} onClick={handleUpdate}>Save</Button>
                     <Button size="sm" variant="ghost" onClick={() => setEdit(null)}>Cancel</Button>
                   </div>
                 </div>
               ) : (
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1, minWidth: 0 }}>
+                <div>
+                  {/* Top row — number + category + actions */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                     <div style={{
-                      width: '28px', height: '28px', borderRadius: '7px', flexShrink: 0,
+                      width: '26px', height: '26px', borderRadius: '7px', flexShrink: 0,
                       background: rule.is_active ? '#FFF1F2' : '#F3F4F6',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: '12px', fontWeight: '800',
                       color: rule.is_active ? '#E11D48' : '#9CA3AF'
                     }}>{i + 1}</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                        <Badge variant={getCategoryInfo(rule.category).color as any}>
-                          {getCategoryInfo(rule.category).label}
-                        </Badge>
-                        {!rule.is_active && <Badge variant="neutral">Inactive</Badge>}
-                      </div>
-                      <p style={{
-                        fontSize: '13px', color: rule.is_active ? '#374151' : '#9CA3AF',
-                        lineHeight: 1.6, margin: 0,
-                        textDecoration: rule.is_active ? 'none' : 'line-through'
-                      }}>{rule.rule_text}</p>
+
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                      <span style={{
+                        fontSize: '11px', fontWeight: '700', padding: '3px 8px', borderRadius: '6px',
+                        background: getCategoryInfo(rule.category).color,
+                        color: getCategoryInfo(rule.category).textColor,
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {getCategoryInfo(rule.category).label}
+                      </span>
+                      {!rule.is_active && (
+                        <span style={{ fontSize: '10px', color: '#9CA3AF', background: '#F3F4F6', padding: '2px 7px', borderRadius: '99px', fontWeight: '600' }}>Inactive</span>
+                      )}
+                    </div>
+
+                    {/* Action buttons — always on same line */}
+                    <div style={{ display: 'flex', gap: '5px', flexShrink: 0 }}>
+                      <button onClick={() => handleToggle(rule.id)} style={{
+                        width: '28px', height: '28px', borderRadius: '7px',
+                        background: rule.is_active ? '#F0FDF4' : '#F3F4F6',
+                        border: `1px solid ${rule.is_active ? '#BBF7D0' : '#E5E7EB'}`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', fontSize: '12px'
+                      }} title={rule.is_active ? 'Disable' : 'Enable'}>
+                        {rule.is_active ? '✓' : '○'}
+                      </button>
+                      <button onClick={() => setEdit({ id: rule.id, rule_text: rule.rule_text, category: rule.category })} style={{
+                        width: '28px', height: '28px', borderRadius: '7px',
+                        background: '#F9FAFB', border: '1px solid #E5E7EB',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', fontSize: '12px'
+                      }}>✏️</button>
+                      <button onClick={() => handleDelete(rule.id)} style={{
+                        width: '28px', height: '28px', borderRadius: '7px',
+                        background: '#FEF2F2', border: '1px solid #FECACA',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', fontSize: '12px'
+                      }}
+                        onMouseEnter={e => (e.currentTarget.style.background = '#FEE2E2')}
+                        onMouseLeave={e => (e.currentTarget.style.background = '#FEF2F2')}
+                      >🗑️</button>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                    <button onClick={() => handleToggle(rule.id)} style={{
-                      width: '30px', height: '30px', borderRadius: '7px',
-                      background: rule.is_active ? '#F0FDF4' : '#F3F4F6',
-                      border: `1px solid ${rule.is_active ? '#BBF7D0' : '#E5E7EB'}`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', fontSize: '13px'
-                    }} title={rule.is_active ? 'Disable' : 'Enable'}>
-                      {rule.is_active ? '✓' : '○'}
-                    </button>
-                    <button onClick={() => setEdit({ id: rule.id, rule_text: rule.rule_text, category: rule.category })} style={{
-                      width: '30px', height: '30px', borderRadius: '7px',
-                      background: '#F9FAFB', border: '1px solid #E5E7EB',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', fontSize: '13px'
-                    }}>✏️</button>
-                    <button onClick={() => handleDelete(rule.id)} style={{
-                      width: '30px', height: '30px', borderRadius: '7px',
-                      background: '#FEF2F2', border: '1px solid #FECACA',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', fontSize: '13px'
-                    }}
-                      onMouseEnter={e => (e.currentTarget.style.background = '#FEE2E2')}
-                      onMouseLeave={e => (e.currentTarget.style.background = '#FEF2F2')}
-                    >🗑️</button>
-                  </div>
+                  {/* Rule text below */}
+                  <p style={{
+                    fontSize: '13px',
+                    color: rule.is_active ? '#374151' : '#9CA3AF',
+                    lineHeight: 1.6, margin: 0, paddingLeft: '36px',
+                    textDecoration: rule.is_active ? 'none' : 'line-through'
+                  }}>{rule.rule_text}</p>
                 </div>
               )}
             </Card>
@@ -344,7 +313,6 @@ export default function SOPRulesPage() {
         </div>
       )}
 
-      {/* Max rules warning */}
       {rules.length >= MAX_RULES && (
         <div style={{ background: '#FEF9C3', border: '1px solid #FDE68A', borderRadius: '10px', padding: '12px 16px' }}>
           <p style={{ fontSize: '13px', color: '#92400E', margin: 0 }}>
