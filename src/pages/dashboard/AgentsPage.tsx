@@ -25,6 +25,15 @@ const sentimentColor = (s: string) => {
   return { bg: '#FEF9C3', color: '#854D0E' }
 }
 
+const formatViolation = (v: any): string => {
+  if (!v) return ''
+  if (typeof v === 'object' && v.text) return v.text
+  if (typeof v === 'string') {
+    return v.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
+  }
+  return String(v)
+}
+
 export default function AgentsPage() {
   const navigate = useNavigate()
   const [agents, setAgents] = useState<Agent[]>([])
@@ -167,7 +176,7 @@ export default function AgentsPage() {
                     </div>
                     {stat.top_violation && (
                       <div style={{ fontSize: '11px', color: '#9CA3AF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '2px' }}>
-                        ⚠️ {stat.top_violation}
+                        ⚠️ {formatViolation(stat.top_violation)}
                       </div>
                     )}
                   </div>
