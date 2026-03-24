@@ -10,7 +10,29 @@ const sectionTitle: React.CSSProperties = {
   fontSize: '14px', fontWeight: '700', color: '#374151', marginBottom: '12px'
 }
 
-function AudioPlayer({ callId }: { callId: string }) {
+// Parse "M:SS" timestamp string to seconds
+const parseTimestamp = (ts: string): number => {
+  if (!ts) return 0
+  const start = ts.split('–')[0].trim()
+  const parts = start.split(':')
+  if (parts.length === 2) {
+    return parseInt(parts[0]) * 60 + parseInt(parts[1])
+  }
+  return 0
+}
+
+// Violation type
+type Violation = { text: string; timestamp: string | null } | string
+
+function AudioPlayer({
+  callId,
+  seekTo,
+  onReady
+}: {
+  callId: string
+  seekTo: number | null
+  onReady: (seekFn: (t: number) => void) => void
+}) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -28,6 +50,28 @@ function AudioPlayer({ callId }: { callId: string }) {
       .catch(() => setError(true))
       .finally(() => setLoading(false))
   }, [callId])
+
+  // Expose seek function to parent
+  useEffect(() => {
+    onReady((t: number) => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = t
+        audioRef.current.play()
+        setIsPlaying(true)
+        setCurrentTime(t)
+      }
+    })
+  }, [audioUrl])
+
+  // React to seekTo prop from parent
+  useEffect(() => {
+    if (seekTo !== null && audioRef.current) {
+      audioRef.current.currentTime = seekTo
+      audioRef.current.play()
+      setIsPlaying(true)
+      setCurrentTime(seekTo)
+    }
+  }, [seekTo])
 
   const togglePlay = () => {
     const audio = audioRef.current
@@ -89,16 +133,14 @@ function AudioPlayer({ callId }: { callId: string }) {
         onEnded={handleEnded}
       />
 
-      {/* Title row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
         <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0 }}>🎙️</div>
         <div>
           <div style={{ fontSize: '13px', fontWeight: '700', color: '#0F172A' }}>Call Recording</div>
-          <div style={{ fontSize: '11px', color: '#9CA3AF' }}>Click play to listen</div>
+          <div style={{ fontSize: '11px', color: '#9CA3AF' }}>Click a violation timestamp to jump to that moment</div>
         </div>
       </div>
 
-      {/* Progress bar */}
       <div style={{ marginBottom: '12px' }}>
         <input
           type="range" min={0} max={duration || 0} step={0.1} value={currentTime}
@@ -111,10 +153,7 @@ function AudioPlayer({ callId }: { callId: string }) {
         </div>
       </div>
 
-      {/* Controls */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-
-        {/* Play/Pause */}
         <button onClick={togglePlay} style={{
           width: '44px', height: '44px', borderRadius: '50%',
           background: 'linear-gradient(135deg, #E11D48, #F43F5E)',
@@ -133,7 +172,6 @@ function AudioPlayer({ callId }: { callId: string }) {
           )}
         </button>
 
-        {/* Volume */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: '100px' }}>
           <span style={{ fontSize: '14px' }}>{volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}</span>
           <input
@@ -143,7 +181,6 @@ function AudioPlayer({ callId }: { callId: string }) {
           />
         </div>
 
-        {/* Speed */}
         <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
           {speeds.map(s => (
             <button key={s} onClick={() => handleSpeed(s)} style={{
@@ -167,13 +204,37 @@ export default function CallDetailPage() {
   const navigate = useNavigate()
   const [call, setCall] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [seekTo, setSeekTo] = useState<number | null>(null)
+  const seekFnRef = useRef<((t: number) => void) | null>(null)
 
   useEffect(() => {
     getCallById(id!).then(res => setCall(res.data.data)).finally(() => setLoading(false))
   }, [id])
 
+  const handleTimestampClick = (timestamp: string) => {
+    const seconds = parseTimestamp(timestamp)
+    if (seekFnRef.current) {
+      seekFnRef.current(seconds)
+    } else {
+      setSeekTo(seconds)
+    }
+  }
+
+  // Normalize violations — handle both string[] and object[]
+  const normalizeViolations = (violations: any[]): Violation[] => {
+    if (!violations) return []
+    return violations.map(v => {
+      if (typeof v === 'string') {
+        try { return JSON.parse(v) } catch { return { text: v, timestamp: null } }
+      }
+      return v
+    })
+  }
+
   if (loading) return <Loader center />
   if (!call) return <div>Call not found</div>
+
+  const violations = normalizeViolations(call.violations || [])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '900px' }}>
@@ -204,12 +265,14 @@ export default function CallDetailPage() {
 
       {/* Audio + Transcript side by side */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
-
-        {/* Left — Audio Player + Summary */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <Card>
             <h3 style={sectionTitle}>🎙️ Audio Player</h3>
-            <AudioPlayer callId={id!} />
+            <AudioPlayer
+              callId={id!}
+              seekTo={seekTo}
+              onReady={(fn) => { seekFnRef.current = fn }}
+            />
           </Card>
 
           {call.summary && (
@@ -220,7 +283,6 @@ export default function CallDetailPage() {
           )}
         </div>
 
-        {/* Right — Transcript */}
         {call.transcript && (
           <Card style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={sectionTitle}>🗣️ Transcript</h3>
@@ -246,14 +308,45 @@ export default function CallDetailPage() {
             )) : <p style={{ fontSize: '13px', color: '#9CA3AF' }}>None</p>}
           </div>
         </Card>
+
         <Card>
           <h3 style={{ ...sectionTitle, color: '#991B1B' }}>❌ Violations</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {call.violations?.length > 0 ? call.violations.map((v: string, i: number) => (
-              <div key={i} style={{ fontSize: '13px', color: '#374151', display: 'flex', gap: '8px' }}>
-                <span style={{ color: '#EF4444', flexShrink: 0 }}>✗</span>{v}
-              </div>
-            )) : <p style={{ fontSize: '13px', color: '#9CA3AF' }}>No violations 🎉</p>}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {violations.length > 0 ? violations.map((v: Violation, i: number) => {
+              const text = typeof v === 'string' ? v : v.text
+              const timestamp = typeof v === 'string' ? null : v.timestamp
+              return (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ fontSize: '13px', color: '#374151', display: 'flex', gap: '8px' }}>
+                    <span style={{ color: '#EF4444', flexShrink: 0 }}>✗</span>
+                    <span>{text}</span>
+                  </div>
+                  {timestamp && (
+                    <button
+                      onClick={() => handleTimestampClick(timestamp)}
+                      style={{
+                        marginLeft: '20px', display: 'inline-flex', alignItems: 'center',
+                        gap: '5px', background: '#FFF1F2', border: '1px solid #FECDD3',
+                        borderRadius: '6px', padding: '3px 10px', fontSize: '11px',
+                        fontWeight: '700', color: '#E11D48', cursor: 'pointer',
+                        fontFamily: 'inherit', width: 'fit-content',
+                        transition: 'all 0.15s ease'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = '#FFE4E6'
+                        e.currentTarget.style.transform = 'scale(1.03)'
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = '#FFF1F2'
+                        e.currentTarget.style.transform = 'scale(1)'
+                      }}
+                    >
+                      ▶ {timestamp}
+                    </button>
+                  )}
+                </div>
+              )
+            }) : <p style={{ fontSize: '13px', color: '#9CA3AF' }}>No violations 🎉</p>}
           </div>
         </Card>
       </div>
