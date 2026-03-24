@@ -20,14 +20,11 @@ const parseTimestamp = (ts: string): number => {
   return 0
 }
 
-type Violation = { text: string; timestamp: string | null }
+type Violation = { text: string; timestamp: string | null; coaching?: string | null }
 
-// Safely normalize violations from any format
 const normalizeViolations = (raw: any): Violation[] => {
   if (!raw) return []
   let arr: any[] = []
-
-  // Could be a string (old text[] stored as string), array, or already parsed
   if (typeof raw === 'string') {
     try { arr = JSON.parse(raw) } catch { return [] }
   } else if (Array.isArray(raw)) {
@@ -39,32 +36,28 @@ const normalizeViolations = (raw: any): Violation[] => {
   return arr.map(v => {
     try {
       if (typeof v === 'string') {
-        // Try to parse if it's a JSON string
         try {
           const parsed = JSON.parse(v)
           if (parsed && typeof parsed === 'object' && parsed.text) {
-            return { text: parsed.text, timestamp: parsed.timestamp || null }
+            return { text: parsed.text, timestamp: parsed.timestamp || null, coaching: parsed.coaching || null }
           }
         } catch {
-          // Plain string violation
-          return { text: v, timestamp: null }
+          return { text: v, timestamp: null, coaching: null }
         }
-        return { text: v, timestamp: null }
+        return { text: v, timestamp: null, coaching: null }
       }
       if (typeof v === 'object' && v !== null) {
-        return { text: v.text || String(v), timestamp: v.timestamp || null }
+        return { text: v.text || String(v), timestamp: v.timestamp || null, coaching: v.coaching || null }
       }
-      return { text: String(v), timestamp: null }
+      return { text: String(v), timestamp: null, coaching: null }
     } catch {
-      return { text: String(v), timestamp: null }
+      return { text: String(v), timestamp: null, coaching: null }
     }
   }).filter(v => v.text)
 }
 
 function AudioPlayer({
-  callId,
-  seekTo,
-  onReady
+  callId, seekTo, onReady
 }: {
   callId: string
   seekTo: number | null
@@ -107,13 +100,6 @@ function AudioPlayer({
       setCurrentTime(seekTo)
     }
   }, [seekTo])
-
-  const togglePlay = () => {
-    const audio = audioRef.current
-    if (!audio) return
-    if (isPlaying) { audio.pause(); setIsPlaying(false) }
-    else { audio.play(); setIsPlaying(true) }
-  }
 
   const fmt = (s: number) => {
     const m = Math.floor(s / 60)
@@ -168,7 +154,12 @@ function AudioPlayer({
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <button onClick={togglePlay} style={{
+        <button onClick={() => {
+          const audio = audioRef.current
+          if (!audio) return
+          if (isPlaying) { audio.pause(); setIsPlaying(false) }
+          else { audio.play(); setIsPlaying(true) }
+        }} style={{
           width: '44px', height: '44px', borderRadius: '50%',
           background: 'linear-gradient(135deg, #E11D48, #F43F5E)',
           border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
@@ -247,13 +238,8 @@ export default function CallDetailPage() {
     </div>
   )
 
-  // Safe violations parse — never crashes
   let violations: Violation[] = []
-  try {
-    violations = normalizeViolations(call.violations)
-  } catch {
-    violations = []
-  }
+  try { violations = normalizeViolations(call.violations) } catch { violations = [] }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '900px' }}>
@@ -335,14 +321,18 @@ export default function CallDetailPage() {
 
         <Card>
           <h3 style={{ ...sectionTitle, color: '#991B1B' }}>❌ Violations</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {violations.length > 0
               ? violations.map((v, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+
+                  {/* Violation text */}
                   <div style={{ fontSize: '13px', color: '#374151', display: 'flex', gap: '8px' }}>
                     <span style={{ color: '#EF4444', flexShrink: 0 }}>✗</span>
                     <span>{v.text}</span>
                   </div>
+
+                  {/* Timestamp badge */}
                   {v.timestamp && (
                     <button
                       onClick={() => handleTimestampClick(v.timestamp!)}
@@ -358,6 +348,25 @@ export default function CallDetailPage() {
                     >
                       ▶ {v.timestamp}
                     </button>
+                  )}
+
+                  {/* Coaching tip */}
+                  {v.coaching && (
+                    <div style={{
+                      marginLeft: '20px', background: '#FFFBEB',
+                      border: '1px solid #FDE68A', borderRadius: '8px',
+                      padding: '8px 12px', display: 'flex', gap: '8px', alignItems: 'flex-start'
+                    }}>
+                      <span style={{ fontSize: '13px', flexShrink: 0 }}>💡</span>
+                      <p style={{ fontSize: '12px', color: '#92400E', lineHeight: 1.6, margin: 0 }}>
+                        {v.coaching}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Divider between violations */}
+                  {i < violations.length - 1 && (
+                    <div style={{ borderBottom: '1px solid #F9FAFB', marginTop: '4px' }} />
                   )}
                 </div>
               ))
