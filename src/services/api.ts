@@ -20,6 +20,7 @@ export const getCallById = (id: string) => api.get(`/api/calls/${id}`)
 export const getFlaggedCalls = () => api.get('/api/calls/flagged')
 export const deleteCall = (id: string) => api.delete(`/api/calls/${id}`)
 export const getAudioUrl = (id: string) => api.get(`/api/calls/${id}/audio`)
+export const reviewCall = (id: string) => api.patch(`/api/calls/${id}/review`)
 
 // Transcripts
 export const getTranscript = (callId: string) => api.get(`/api/transcripts/${callId}`)
@@ -29,6 +30,7 @@ export const searchTranscripts = (q: string) => api.get(`/api/transcripts/search
 export const getDashboardStats = () => api.get('/api/analytics/stats')
 export const getComplianceTrend = () => api.get('/api/analytics/trend')
 export const getTopViolations = () => api.get('/api/analytics/violations')
+export const getViolationsByRule = () => api.get('/api/analytics/violations-by-rule')
 
 // SOP Rules
 export const getSopRules = () => api.get('/api/sop')

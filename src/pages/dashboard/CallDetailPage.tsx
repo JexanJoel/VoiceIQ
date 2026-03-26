@@ -6,9 +6,7 @@ import Loader from '../../components/ui/Loader'
 import Button from '../../components/ui/Button'
 import { formatDate, formatDuration, getComplianceColor, getSentimentColor } from '../../utils/helpers'
 
-const sectionTitle: React.CSSProperties = {
-  fontSize: '14px', fontWeight: '700', color: '#374151', marginBottom: '12px'
-}
+const sectionTitle: React.CSSProperties = { fontSize: '14px', fontWeight: '700', color: '#374151', marginBottom: '12px' }
 
 const parseTimestamp = (ts: string): number => {
   if (!ts) return 0
@@ -20,7 +18,13 @@ const parseTimestamp = (ts: string): number => {
   return 0
 }
 
-type Violation = { text: string; timestamp: string | null; coaching?: string | null }
+type Violation = { text: string; timestamp: string | null; coaching?: string | null; severity?: string | null }
+
+const severityConfig = {
+  critical: { bg: '#FEE2E2', color: '#991B1B', label: '🔴 Critical' },
+  major:    { bg: '#FEF9C3', color: '#854D0E', label: '🟡 Major' },
+  minor:    { bg: '#F0FDF4', color: '#166534', label: '🟢 Minor' },
+}
 
 const normalizeViolations = (raw: any): Violation[] => {
   if (!raw) return []
@@ -29,9 +33,7 @@ const normalizeViolations = (raw: any): Violation[] => {
     try { arr = JSON.parse(raw) } catch { return [] }
   } else if (Array.isArray(raw)) {
     arr = raw
-  } else {
-    return []
-  }
+  } else return []
 
   return arr.map(v => {
     try {
@@ -39,30 +41,20 @@ const normalizeViolations = (raw: any): Violation[] => {
         try {
           const parsed = JSON.parse(v)
           if (parsed && typeof parsed === 'object' && parsed.text) {
-            return { text: parsed.text, timestamp: parsed.timestamp || null, coaching: parsed.coaching || null }
+            return { text: parsed.text, timestamp: parsed.timestamp || null, coaching: parsed.coaching || null, severity: parsed.severity || null }
           }
-        } catch {
-          return { text: v, timestamp: null, coaching: null }
-        }
-        return { text: v, timestamp: null, coaching: null }
+        } catch { return { text: v, timestamp: null, coaching: null, severity: null } }
+        return { text: v, timestamp: null, coaching: null, severity: null }
       }
       if (typeof v === 'object' && v !== null) {
-        return { text: v.text || String(v), timestamp: v.timestamp || null, coaching: v.coaching || null }
+        return { text: v.text || String(v), timestamp: v.timestamp || null, coaching: v.coaching || null, severity: v.severity || null }
       }
-      return { text: String(v), timestamp: null, coaching: null }
-    } catch {
-      return { text: String(v), timestamp: null, coaching: null }
-    }
+      return { text: String(v), timestamp: null, coaching: null, severity: null }
+    } catch { return { text: String(v), timestamp: null, coaching: null, severity: null } }
   }).filter(v => v.text)
 }
 
-function AudioPlayer({
-  callId, seekTo, onReady
-}: {
-  callId: string
-  seekTo: number | null
-  onReady: (seekFn: (t: number) => void) => void
-}) {
+function AudioPlayer({ callId, seekTo, onReady }: { callId: string; seekTo: number | null; onReady: (fn: (t: number) => void) => void }) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -75,37 +67,20 @@ function AudioPlayer({
   const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2]
 
   useEffect(() => {
-    getAudioUrl(callId)
-      .then(res => setAudioUrl(res.data.data.url))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false))
+    getAudioUrl(callId).then(res => setAudioUrl(res.data.data.url)).catch(() => setError(true)).finally(() => setLoading(false))
   }, [callId])
 
   useEffect(() => {
     onReady((t: number) => {
-      if (audioRef.current) {
-        audioRef.current.currentTime = t
-        audioRef.current.play()
-        setIsPlaying(true)
-        setCurrentTime(t)
-      }
+      if (audioRef.current) { audioRef.current.currentTime = t; audioRef.current.play(); setIsPlaying(true); setCurrentTime(t) }
     })
   }, [audioUrl])
 
   useEffect(() => {
-    if (seekTo !== null && audioRef.current) {
-      audioRef.current.currentTime = seekTo
-      audioRef.current.play()
-      setIsPlaying(true)
-      setCurrentTime(seekTo)
-    }
+    if (seekTo !== null && audioRef.current) { audioRef.current.currentTime = seekTo; audioRef.current.play(); setIsPlaying(true); setCurrentTime(seekTo) }
   }, [seekTo])
 
-  const fmt = (s: number) => {
-    const m = Math.floor(s / 60)
-    const sec = Math.floor(s % 60)
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
+  const fmt = (s: number) => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
 
   if (loading) return (
     <div style={{ background: '#F9FAFB', borderRadius: '12px', padding: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -122,14 +97,11 @@ function AudioPlayer({
 
   return (
     <div style={{ background: 'linear-gradient(135deg, #FFF1F2, #FFF8F9)', border: '1px solid #FFE4E6', borderRadius: '14px', padding: '20px' }}>
-      <audio
-        ref={audioRef}
-        src={audioUrl}
+      <audio ref={audioRef} src={audioUrl}
         onTimeUpdate={() => audioRef.current && setCurrentTime(audioRef.current.currentTime)}
         onLoadedMetadata={() => audioRef.current && setDuration(audioRef.current.duration)}
         onEnded={() => setIsPlaying(false)}
       />
-
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
         <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0 }}>🎙️</div>
         <div>
@@ -137,14 +109,9 @@ function AudioPlayer({
           <div style={{ fontSize: '11px', color: '#9CA3AF' }}>Click a violation timestamp to jump to that moment</div>
         </div>
       </div>
-
       <div style={{ marginBottom: '12px' }}>
-        <input
-          type="range" min={0} max={duration || 0} step={0.1} value={currentTime}
-          onChange={e => {
-            const t = parseFloat(e.target.value)
-            if (audioRef.current) { audioRef.current.currentTime = t; setCurrentTime(t) }
-          }}
+        <input type="range" min={0} max={duration || 0} step={0.1} value={currentTime}
+          onChange={e => { const t = parseFloat(e.target.value); if (audioRef.current) { audioRef.current.currentTime = t; setCurrentTime(t) } }}
           style={{ width: '100%', height: '4px', accentColor: '#E11D48', cursor: 'pointer' }}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
@@ -152,54 +119,20 @@ function AudioPlayer({
           <span style={{ fontSize: '11px', color: '#9CA3AF' }}>{fmt(duration)}</span>
         </div>
       </div>
-
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <button onClick={() => {
-          const audio = audioRef.current
-          if (!audio) return
-          if (isPlaying) { audio.pause(); setIsPlaying(false) }
-          else { audio.play(); setIsPlaying(true) }
-        }} style={{
-          width: '44px', height: '44px', borderRadius: '50%',
-          background: 'linear-gradient(135deg, #E11D48, #F43F5E)',
-          border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
-          justifyContent: 'center', flexShrink: 0,
-          boxShadow: '0 4px 12px rgba(225,29,72,0.3)'
-        }}>
-          {isPlaying ? (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-              <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
-            </svg>
-          ) : (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-              <polygon points="5,3 19,12 5,21"/>
-            </svg>
-          )}
+        <button onClick={() => { const a = audioRef.current; if (!a) return; if (isPlaying) { a.pause(); setIsPlaying(false) } else { a.play(); setIsPlaying(true) } }} style={{ width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #E11D48, #F43F5E)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 12px rgba(225,29,72,0.3)' }}>
+          {isPlaying ? <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>}
         </button>
-
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: '100px' }}>
           <span style={{ fontSize: '14px' }}>{volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}</span>
-          <input
-            type="range" min={0} max={1} step={0.05} value={volume}
-            onChange={e => {
-              const v = parseFloat(e.target.value)
-              if (audioRef.current) { audioRef.current.volume = v; setVolume(v) }
-            }}
+          <input type="range" min={0} max={1} step={0.05} value={volume}
+            onChange={e => { const v = parseFloat(e.target.value); if (audioRef.current) { audioRef.current.volume = v; setVolume(v) } }}
             style={{ flex: 1, height: '4px', accentColor: '#E11D48', cursor: 'pointer' }}
           />
         </div>
-
         <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
           {speeds.map(s => (
-            <button key={s} onClick={() => {
-              if (audioRef.current) { audioRef.current.playbackRate = s; setSpeed(s) }
-            }} style={{
-              padding: '4px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700',
-              border: speed === s ? '1.5px solid #E11D48' : '1.5px solid #FFE4E6',
-              background: speed === s ? '#FFF1F2' : '#fff',
-              color: speed === s ? '#E11D48' : '#9CA3AF',
-              cursor: 'pointer', fontFamily: 'inherit'
-            }}>{s}x</button>
+            <button key={s} onClick={() => { if (audioRef.current) { audioRef.current.playbackRate = s; setSpeed(s) } }} style={{ padding: '4px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', border: speed === s ? '1.5px solid #E11D48' : '1.5px solid #FFE4E6', background: speed === s ? '#FFF1F2' : '#fff', color: speed === s ? '#E11D48' : '#9CA3AF', cursor: 'pointer', fontFamily: 'inherit' }}>{s}x</button>
           ))}
         </div>
       </div>
@@ -217,10 +150,7 @@ export default function CallDetailPage() {
   const seekFnRef = useRef<((t: number) => void) | null>(null)
 
   useEffect(() => {
-    getCallById(id!)
-      .then(res => setCall(res.data.data))
-      .catch(() => setCall(null))
-      .finally(() => setLoading(false))
+    getCallById(id!).then(res => setCall(res.data.data)).catch(() => setCall(null)).finally(() => setLoading(false))
   }, [id])
 
   const handleTimestampClick = (timestamp: string) => {
@@ -241,10 +171,13 @@ export default function CallDetailPage() {
   let violations: Violation[] = []
   try { violations = normalizeViolations(call.violations) } catch { violations = [] }
 
+  // Sort violations by severity: critical first, then major, then minor
+  const severityOrder = { critical: 0, major: 1, minor: 2 }
+  violations.sort((a, b) => (severityOrder[a.severity as keyof typeof severityOrder] ?? 1) - (severityOrder[b.severity as keyof typeof severityOrder] ?? 1))
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '900px' }}>
 
-      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>← Back</Button>
         <div>
@@ -258,7 +191,6 @@ export default function CallDetailPage() {
         </div>
       </div>
 
-      {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
         {[
           { label: 'SOP Compliance', value: `${call.sop_compliance_percentage ?? 0}%`, color: getComplianceColor(call.sop_compliance_percentage ?? 0) },
@@ -273,16 +205,11 @@ export default function CallDetailPage() {
         ))}
       </div>
 
-      {/* Audio + Transcript */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <Card>
             <h3 style={sectionTitle}>🎙️ Audio Player</h3>
-            <AudioPlayer
-              callId={id!}
-              seekTo={seekTo}
-              onReady={(fn) => { seekFnRef.current = fn }}
-            />
+            <AudioPlayer callId={id!} seekTo={seekTo} onReady={(fn) => { seekFnRef.current = fn }} />
           </Card>
           {call.summary && (
             <Card>
@@ -291,20 +218,14 @@ export default function CallDetailPage() {
             </Card>
           )}
         </div>
-
         {call.transcript && (
           <Card style={{ display: 'flex', flexDirection: 'column' }}>
             <h3 style={sectionTitle}>🗣️ Transcript</h3>
-            <div style={{
-              fontSize: '13px', color: '#374151', lineHeight: '1.8',
-              background: '#F9FAFB', padding: '14px', borderRadius: '8px',
-              whiteSpace: 'pre-wrap', overflowY: 'auto', flex: 1, maxHeight: '400px'
-            }}>{call.transcript}</div>
+            <div style={{ fontSize: '13px', color: '#374151', lineHeight: '1.8', background: '#F9FAFB', padding: '14px', borderRadius: '8px', whiteSpace: 'pre-wrap', overflowY: 'auto', flex: 1, maxHeight: '400px' }}>{call.transcript}</div>
           </Card>
         )}
       </div>
 
-      {/* SOP Checks */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
         <Card>
           <h3 style={{ ...sectionTitle, color: '#065F46' }}>✅ Passed Checks</h3>
@@ -323,53 +244,43 @@ export default function CallDetailPage() {
           <h3 style={{ ...sectionTitle, color: '#991B1B' }}>❌ Violations</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {violations.length > 0
-              ? violations.map((v, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              ? violations.map((v, i) => {
+                const sev = severityConfig[v.severity as keyof typeof severityConfig] || severityConfig.major
+                return (
+                  <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
 
-                  {/* Violation text */}
-                  <div style={{ fontSize: '13px', color: '#374151', display: 'flex', gap: '8px' }}>
-                    <span style={{ color: '#EF4444', flexShrink: 0 }}>✗</span>
-                    <span>{v.text}</span>
-                  </div>
-
-                  {/* Timestamp badge */}
-                  {v.timestamp && (
-                    <button
-                      onClick={() => handleTimestampClick(v.timestamp!)}
-                      style={{
-                        marginLeft: '20px', display: 'inline-flex', alignItems: 'center',
-                        gap: '5px', background: '#FFF1F2', border: '1px solid #FECDD3',
-                        borderRadius: '6px', padding: '3px 10px', fontSize: '11px',
-                        fontWeight: '700', color: '#E11D48', cursor: 'pointer',
-                        fontFamily: 'inherit', width: 'fit-content', transition: 'all 0.15s ease'
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.background = '#FFE4E6'; e.currentTarget.style.transform = 'scale(1.03)' }}
-                      onMouseLeave={e => { e.currentTarget.style.background = '#FFF1F2'; e.currentTarget.style.transform = 'scale(1)' }}
-                    >
-                      ▶ {v.timestamp}
-                    </button>
-                  )}
-
-                  {/* Coaching tip */}
-                  {v.coaching && (
-                    <div style={{
-                      marginLeft: '20px', background: '#FFFBEB',
-                      border: '1px solid #FDE68A', borderRadius: '8px',
-                      padding: '8px 12px', display: 'flex', gap: '8px', alignItems: 'flex-start'
-                    }}>
-                      <span style={{ fontSize: '13px', flexShrink: 0 }}>💡</span>
-                      <p style={{ fontSize: '12px', color: '#92400E', lineHeight: 1.6, margin: 0 }}>
-                        {v.coaching}
-                      </p>
+                    {/* Severity badge + violation text */}
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '700', padding: '2px 8px', borderRadius: '6px', background: sev.bg, color: sev.color, whiteSpace: 'nowrap', flexShrink: 0, marginTop: '1px' }}>
+                        {sev.label}
+                      </span>
+                      <span style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5 }}>{v.text}</span>
                     </div>
-                  )}
 
-                  {/* Divider between violations */}
-                  {i < violations.length - 1 && (
-                    <div style={{ borderBottom: '1px solid #F9FAFB', marginTop: '4px' }} />
-                  )}
-                </div>
-              ))
+                    {/* Timestamp */}
+                    {v.timestamp && (
+                      <button
+                        onClick={() => handleTimestampClick(v.timestamp!)}
+                        style={{ marginLeft: '4px', display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: '6px', padding: '3px 10px', fontSize: '11px', fontWeight: '700', color: '#E11D48', cursor: 'pointer', fontFamily: 'inherit', width: 'fit-content', transition: 'all 0.15s ease' }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#FFE4E6'; e.currentTarget.style.transform = 'scale(1.03)' }}
+                        onMouseLeave={e => { e.currentTarget.style.background = '#FFF1F2'; e.currentTarget.style.transform = 'scale(1)' }}
+                      >
+                        ▶ {v.timestamp}
+                      </button>
+                    )}
+
+                    {/* Coaching */}
+                    {v.coaching && (
+                      <div style={{ marginLeft: '4px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: '8px', padding: '8px 12px', display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                        <span style={{ fontSize: '13px', flexShrink: 0 }}>💡</span>
+                        <p style={{ fontSize: '12px', color: '#92400E', lineHeight: 1.6, margin: 0 }}>{v.coaching}</p>
+                      </div>
+                    )}
+
+                    {i < violations.length - 1 && <div style={{ borderBottom: '1px solid #F9FAFB', marginTop: '4px' }} />}
+                  </div>
+                )
+              })
               : <p style={{ fontSize: '13px', color: '#9CA3AF' }}>No violations 🎉</p>}
           </div>
         </Card>
