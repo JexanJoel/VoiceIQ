@@ -26,7 +26,7 @@ Indian call centers handle thousands of calls daily. Supervisors manually listen
 ## ✨ Features
 
 #### 🗣️ Hinglish & Tanglish STT
-Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy — no manual effort.
+Groq Whisper large-v3 transcribes mixed-language Indian call recordings with high accuracy - no manual effort.
 
 #### ✅ SOP Compliance Validation
 Every call is scored against your custom SOP rules. Violations are flagged with exact rule references, timestamps, and severity levels.
@@ -38,7 +38,7 @@ Detect caller mood and agent tone across every interaction. Spot negative patter
 Automatically categorize whether customers prefer cash, UPI, card, or other payment methods.
 
 #### 🚩 Instant Call Flagging
-Calls below 70% SOP compliance are automatically flagged for manager review — zero manual listening. Mark calls as reviewed to track progress.
+Calls below 70% SOP compliance are automatically flagged for manager review - zero manual listening. Mark calls as reviewed to track progress.
 
 #### 📊 Live Analytics Dashboard
 Real-time charts on compliance trends, sentiment distribution, language breakdown, and top violations. Includes best/worst performing day and most violated rule.
@@ -47,16 +47,16 @@ Real-time charts on compliance trends, sentiment distribution, language breakdow
 Leaderboard ranked by compliance %, with trend arrows (↑↓→), per-agent violations, sentiment trends, and full call history.
 
 #### 📋 Custom SOP Rules Manager
-Define your own compliance rules per category — greeting, identity, payment, closing, and more. Up to 10 rules. Shows violation count per rule.
+Define your own compliance rules per category - greeting, identity, payment, closing, and more. Up to 10 rules. Shows violation count per rule.
 
 #### 🎙️ Audio Player
 Listen to the original call recording side by side with the AI transcript. Click any violation timestamp to jump directly to that moment in the audio.
 
 #### 💡 AI Coaching Suggestions
-Every violation includes a specific, actionable coaching tip — with example scripts the agent can use next time.
+Every violation includes a specific, actionable coaching tip - with example scripts the agent can use next time.
 
 #### ⚠️ Violation Severity Levels
-Each violation is classified as Critical, Major, or Minor — sorted by severity so the most important issues surface first.
+Each violation is classified as Critical, Major, or Minor - sorted by severity so the most important issues surface first.
 
 ---
 
@@ -140,17 +140,17 @@ All tables have Row Level Security (RLS) enabled via Supabase.
 
 ## 📊 Dashboard Pages
 
-**Dashboard Home** — Stats overview, compliance trend chart (clickable), best/worst day, most violated rule
+**Dashboard Home** - Stats overview, compliance trend chart (clickable), best/worst day, most violated rule
 
-**All Calls** — Upload calls, assign agents, filter by date, view all recordings
+**All Calls** - Upload calls, assign agents, filter by date, view all recordings
 
-**Call Detail** — Audio player with clickable violation timestamps, severity badges, coaching tips, transcript
+**Call Detail** - Audio player with clickable violation timestamps, severity badges, coaching tips, transcript
 
-**Flagged Calls** — Calls below 70% compliance, filter by reviewed/pending, mark as reviewed
+**Flagged Calls** - Calls below 70% compliance, filter by reviewed/pending, mark as reviewed
 
-**Agents** — Leaderboard with trend arrows, per-agent compliance, sentiment, top violation
+**Agents** - Leaderboard with trend arrows, per-agent compliance, sentiment, top violation
 
-**SOP Rules** — Create/edit/toggle rules, violation count per rule, default rules preview
+**SOP Rules** - Create/edit/toggle rules, violation count per rule, default rules preview
 
 ---
 
