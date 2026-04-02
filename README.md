@@ -6,11 +6,16 @@
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-4F46E5?style=for-the-badge)](https://voice-iq-five.vercel.app/)
-[![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache&logoColor=white)](./LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JexanJoel/VoiceIQ)
-[![Backend Repo](https://img.shields.io/badge/Backend_Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JexanJoel/VoiceIQ-backend)
-[![Open Source](https://img.shields.io/badge/Open_Source-16A34A?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/JexanJoel/VoiceIQ)
+<div align="center">
+<table>
+  <tr>
+    <td align="center"><a href="https://voice-iq-ai.vercel.app/"><img src="https://img.shields.io/badge/🚀_Live_Demo-4F46E5?style=for-the-badge"/></a></td>
+    <td align="center"><a href="https://github.com/JexanJoel/VoiceIQ-Backend"><img src="https://img.shields.io/badge/Backend_Repo-181717?style=for-the-badge&logo=github&logoColor=white"/></a></td>
+    <td align="center"><a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache&logoColor=white"/></a></td>
+    <td align="center"><a href="https://github.com/JexanJoel/VoiceIQ"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/></a></td>
+  </tr>
+</table>
+</div>
 
 </div>
 
@@ -205,16 +210,6 @@ The backend API (Node.js + Express + Groq) is in a separate repository:
 👉 **[VoiceIQ Backend](https://github.com/JexanJoel/VoiceIQ-backend)**
 
 The backend exposes `POST /api/call-analytics` — the hackathon evaluation endpoint that accepts Base64 MP3 audio and returns structured compliance JSON.
-
----
-
-## 🤖 AI Tools Used
-
-| Tool | Usage |
-|---|---|
-| **Groq Whisper large-v3** | Speech-to-text transcription of Hinglish/Tanglish audio |
-| **Groq Llama 3.3 70B Versatile** | SOP compliance analysis, payment classification, sentiment, keyword extraction |
-| **Claude (Anthropic)** | Development assistance — code generation, prompt engineering, architecture guidance |
 
 ---
 
