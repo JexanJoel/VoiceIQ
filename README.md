@@ -29,6 +29,23 @@ Indian call centers handle thousands of calls daily. Supervisors manually listen
 
 ---
 
+## 📋 Table of Contents
+
+- [The Problem](#-the-problem)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [How It Works](#️-how-it-works)
+- [Project Structure](#-project-structure)
+- [Database Schema](#️-database-schema)
+- [Dashboard Pages](#-dashboard-pages)
+- [Authentication](#-authentication)
+- [Setup Instructions](#️-setup-instructions)
+- [Backend Repository](#-backend-repository)
+- [Known Limitations](#️-known-limitations)
+- [License](#-license)
+
+---
+
 ## ✨ Features
 
 #### 🗣️ Hinglish & Tanglish STT
